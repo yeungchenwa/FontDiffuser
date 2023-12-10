@@ -131,7 +131,7 @@ def main():
 
     # The trackers initializes automatically on the main process.
     if accelerator.is_main_process:
-        accelerator.init_trackers("fontdiffuser_training")
+        accelerator.init_trackers(args.experience_name)
         save_args_to_yaml(args=args, output_file=f"{args.output_dir}/{args.experience_name}_config.yaml")
 
     # Only show the progress bar once on each machine.

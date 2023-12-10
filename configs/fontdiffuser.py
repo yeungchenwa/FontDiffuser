@@ -23,8 +23,6 @@ def get_parser():
                             dataset will be resized to this.")
     parser.add_argument("--style_image_size", type=tuple, default=(96, 96), 
                         help="The size of style images.")
-    parser.add_argument("--style_embedding_dim", type=int, default=1024, 
-                        help="The embedding dims of the output of style imaage encoder.")
     parser.add_argument("--content_image_size", type=tuple, default=(96, 96), help="The size of content images.")
     parser.add_argument("--content_encoder_downsample_size", type=int,default=3, 
                         help="The downsample size of the content encoder.")
@@ -39,7 +37,7 @@ def get_parser():
                         help="Batch size (per device) for the training dataloader.")
     ## loss coefficient
     parser.add_argument("--perceptual_coefficient", type=float, default=0.01)
-    parser.add_argument("--offset_coefficient", type=float, default=0.5,)
+    parser.add_argument("--offset_coefficient", type=float, default=0.5)
     ## step
     parser.add_argument("--max_train_steps", type=int, default=440000, 
                         help="Total number of training steps to perform.  If provided, overrides num_train_epochs.",)

@@ -26,7 +26,7 @@ def build_unet(args):
         act_fn='silu',
         norm_num_groups=32,
         norm_eps=1e-05,
-        cross_attention_dim=args.style_embedding_dim,
+        cross_attention_dim=args.style_start_channel * 16,
         attention_head_dim=1,
         channel_attn=args.channel_attn,
         content_encoder_downsample_size=args.content_encoder_downsample_size,
