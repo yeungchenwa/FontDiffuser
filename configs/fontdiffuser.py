@@ -16,15 +16,14 @@ def get_parser():
                               " *output_dir/runs/**CURRENT_DATETIME_HOSTNAME***."))
 
     # Model
-    parser.add_argument("--unet_channels", type=tuple, default=(64, 128, 256, 512),
-                        help="The channels of the UNet.")
     parser.add_argument("--resolution", type=int, default=96, 
                         help="The resolution for input images, all the images in the train/validation \
                             dataset will be resized to this.")
-    parser.add_argument("--style_image_size", type=tuple, default=(96, 96), 
-                        help="The size of style images.")
-    parser.add_argument("--content_image_size", type=tuple, default=(96, 96), help="The size of content images.")
-    parser.add_argument("--content_encoder_downsample_size", type=int,default=3, 
+    parser.add_argument("--unet_channels", type=tuple, default=(64, 128, 256, 512),
+                        help="The channels of the UNet.")
+    parser.add_argument("--style_image_size", type=int, default=96, help="The size of style images.")
+    parser.add_argument("--content_image_size", type=int, default=96, help="The size of content images.")
+    parser.add_argument("--content_encoder_downsample_size", type=int, default=3, 
                         help="The downsample size of the content encoder.")
     parser.add_argument("--channel_attn", type=bool, default=True, help="Whether to use the se attention.",)
     parser.add_argument("--content_start_channel", type=int, default=64, 

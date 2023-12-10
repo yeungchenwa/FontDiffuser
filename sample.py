@@ -112,4 +112,9 @@ if __name__=="__main__":
                         help="The saving directory.")
     parser.add_argument("--device", type=str, default="cuda:0")
     args = parser.parse_args()
+    style_image_size = args.style_image_size
+    content_image_size = args.content_image_size
+    args.style_image_size = (style_image_size, style_image_size)
+    args.content_image_size = (content_image_size, content_image_size)
+    
     main(args=args)

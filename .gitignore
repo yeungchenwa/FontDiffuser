@@ -1,6 +1,7 @@
 # Initially taken from GitHub's Python gitignore file
 outputs/
 run_sh/
+ckpt/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
