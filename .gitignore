@@ -1,8 +1,6 @@
 # Initially taken from GitHub's Python gitignore file
 outputs/
 run_sh/
-dataset/
-train.py
 ckpt/
 
 # Byte-compiled / optimized / DLL files
