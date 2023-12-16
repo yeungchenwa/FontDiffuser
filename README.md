@@ -29,7 +29,8 @@
 + We release the 💻[Gradio Demo]() in Hugging Face.  
 
 ## 📅 News
-- **2023.12.16**: The gradio app script is realeased.
+- **2023.12.16**: The gradio app demo is realeased.   
+<img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
 - **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.
 - **2023.12.09**: 🎉 Our paper is accepted by AAAI2024.
 
@@ -107,6 +108,8 @@ sh script/sample_content_character.sh
 ```bash
 gradio gradio_app.py
 ```
+The UI is seen like this:
+![FontDiffuer_UI](figures/gradio_fontdiffuer.png)
 
 ### (2) Sampling by FontDiffuser and Rendering by ControlNet
 ```bash

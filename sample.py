@@ -73,7 +73,8 @@ def image_process(args, content_image=None, style_image=None):
             content_image = ttf2im(font=font, char=args.content_character)
         else:
             assert content_image is not None, "The content image should not be None."
-
+        content_image_pil = None
+        
     ## Dataset transform
     content_inference_transforms = transforms.Compose(
         [transforms.Resize(args.content_image_size, \

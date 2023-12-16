@@ -1,4 +1,4 @@
-import argparse
+import random
 import gradio as gr
 from sample import (arg_parse, 
                     sampling,
@@ -16,6 +16,7 @@ def run_fontdiffuer(source_image,
     args.sampling_step = sampling_step
     args.guidance_scale = guidance_scale
     args.batch_size = batch_size
+    args.seed = random.randint(0, 10000)
     out_image = sampling(
         args=args,
         pipe=pipe,
