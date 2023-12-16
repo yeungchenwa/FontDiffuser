@@ -1,5 +1,8 @@
 import os
+import cv2
 import time
+import random
+import numpy as np
 from PIL import Image
 
 import torch
@@ -26,6 +29,8 @@ def arg_parse():
     parser = get_parser()
     parser.add_argument("--ckpt_dir", type=str, default=None)
     parser.add_argument("--demo", action="store_true")
+    parser.add_argument("--controlnet", type=bool, default=False, 
+                        help="If in demo mode, the controlnet can be added.")
     parser.add_argument("--character_input", action="store_true")
     parser.add_argument("--content_character", type=str, default=None)
     parser.add_argument("--content_image_path", type=str, default=None)
@@ -83,16 +88,7 @@ def image_process(args, content_image=None, style_image=None):
 
     return content_image, style_image
 
-
-def sampling(args, content_image=None, style_image=None):
-    if not args.demo:
-        os.makedirs(args.save_image_dir, exist_ok=True)
-        # saving sampling config
-        save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
-
-    if args.seed:
-        set_seed(seed=args.seed)
-
+def load_fontdiffuer_pipeline(args):
     # Load the model state_dict
     unet = build_unet(args=args)
     unet.load_state_dict(torch.load(f"{args.ckpt_dir}/unet.pth"))
@@ -120,6 +116,18 @@ def sampling(args, content_image=None, style_image=None):
         guidance_scale=args.guidance_scale,
     )
     print("Loaded dpm_solver pipeline sucessfully!")
+
+    return pipe
+
+
+def sampling(args, pipe, content_image=None, style_image=None):
+    if not args.demo:
+        os.makedirs(args.save_image_dir, exist_ok=True)
+        # saving sampling config
+        save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
+
+    if args.seed:
+        set_seed(seed=args.seed)
     
     content_image, style_image = image_process(args=args,
                                                content_image=content_image,
@@ -128,7 +136,6 @@ def sampling(args, content_image=None, style_image=None):
         print(f"The content_character you provided is not in the ttf. \
                 Please change the content_character or you can change the ttf.")
         return None
-
 
     with torch.no_grad():
         content_image = content_image.to(args.device)
@@ -160,13 +167,54 @@ def sampling(args, content_image=None, style_image=None):
                                         style_image_path=args.style_image_path,
                                         resolution=args.resolution)
             print(f"Finish the sampling process, costing time {end - start}s")
-        if args.demo:
-            return images[0].resize((128, 128), Image.BICUBIC)
-        else:
-            return images[0]
+        return images[0]
+
+
+def load_controlnet_pipeline(args,
+                             config_path="lllyasviel/sd-controlnet-canny", 
+                             ckpt_path="runwayml/stable-diffusion-v1-5"):
+    from diffusers import ControlNetModel, AutoencoderKL
+    # load controlnet model and pipeline
+    from diffusers import StableDiffusionControlNetPipeline, UniPCMultistepScheduler
+    controlnet = ControlNetModel.from_pretrained(config_path, 
+                                                 torch_dtype=torch.float16,
+                                                 cache_dir=f"{args.ckpt_dir}/controlnet")
+    print(f"Loaded ControlNet Model Successfully!")
+    pipe = StableDiffusionControlNetPipeline.from_pretrained(ckpt_path, 
+                                                             controlnet=controlnet, 
+                                                             torch_dtype=torch.float16,
+                                                             cache_dir=f"{args.ckpt_dir}/controlnet_pipeline")
+    # faster
+    pipe.scheduler = UniPCMultistepScheduler.from_config(pipe.scheduler.config)
+    pipe.enable_model_cpu_offload()
+    print(f"Loaded ControlNet Pipeline Successfully!")
+
+    return pipe
+
+
+def controlnet(text_prompt, 
+               pil_image,
+               pipe):
+    image = np.array(pil_image)
+    # get canny image
+    image = cv2.Canny(image=image, threshold1=100, threshold2=200)
+    image = image[:, :, None]
+    image = np.concatenate([image, image, image], axis=2)
+    canny_image = Image.fromarray(image)
+    
+    seed = random.randint(0, 10000)
+    generator = torch.manual_seed(seed)
+    image = pipe(text_prompt, 
+                 num_inference_steps=50, 
+                 generator=generator, 
+                 image=canny_image,
+                 output_type='pil').images[0]
+    return image
 
 
 if __name__=="__main__":
     args = arg_parse()
     
-    out_image = sampling(args=args)
+    # load fontdiffuser pipeline
+    pipe = load_fontdiffuer_pipeline(args=args)
+    out_image = sampling(args=args, pipe=pipe)
