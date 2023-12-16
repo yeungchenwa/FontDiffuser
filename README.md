@@ -4,7 +4,7 @@
 
 </div>
 
-[HERE LOGO].  
+![FontDiffuser_LOGO](figures/logo.png)  
 
 <p align="center">
     <a href='111'><img src='https://img.shields.io/badge/Arxiv-2312.98527-red'>
