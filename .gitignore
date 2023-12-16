@@ -2,6 +2,7 @@
 outputs/
 run_sh/
 ckpt/
+ttf/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

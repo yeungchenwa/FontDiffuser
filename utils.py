@@ -5,6 +5,7 @@ import copy
 import pygame
 import numpy as np
 from PIL import Image
+from fontTools.ttLib import TTFont
 
 import torch
 import torchvision.transforms as transforms
@@ -78,14 +79,23 @@ def normalize_mean_std(image):
     return image
 
 
-def load_ttf(ttf_p, fsize=128):
+def is_char_in_font(font_path, char):
+    TTFont_font = TTFont(font_path)
+    cmap = TTFont_font['cmap']
+    for subtable in cmap.tables:
+        if ord(char) in subtable.cmap:
+            return True
+    return False
+
+
+def load_ttf(ttf_path, fsize=128):
     pygame.init()
 
-    font = pygame.freetype.Font(ttf_p, size=fsize)
+    font = pygame.freetype.Font(ttf_path, size=fsize)
     return font
 
 
-def ttf2im(font, save_path, char, fsize=128):
+def ttf2im(font, char, fsize=128):
     
     try:
         surface, _ = font.render(char)
@@ -105,4 +115,6 @@ def ttf2im(font, save_path, char, fsize=128):
         imo = cv2.resize(imo, (w, h))
     x, y = round((fsize-w)/2), round((fsize-h)/2)
     im[y:h+y, x:x+w] = imo
-    cv2.imencode('.jpg', im)[1].tofile(save_path)
+    pil_im = Image.fromarray(im.astype('uint8')).convert('RGB')
+    
+    return pil_im

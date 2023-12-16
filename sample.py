@@ -12,9 +12,52 @@ from src import (FontDiffuserDPMPipeline,
                  build_unet,
                  build_content_encoder,
                  build_style_encoder)
-from utils import (save_args_to_yaml,
+from utils import (ttf2im,
+                   load_ttf,
+                   is_char_in_font,
+                   save_args_to_yaml,
                    save_single_image,
                    save_image_with_content_style)
+
+
+def image_process(args, content_image=None, style_image=None):
+    if not args.demo:
+        # Read content image and style image
+        if args.character_input:
+            assert args.content_character is not None, "The content_character should not be None."
+            if not is_char_in_font(font_path=args.ttf_path, char=args.content_character):
+                return None, None
+            font = load_ttf(ttf_path=args.ttf_path)
+            content_image = ttf2im(font=font, char=args.content_character)
+        else:
+            content_image = Image.open(args.content_image_path).convert('RGB')
+        style_image = Image.open(args.style_image_path).convert('RGB')
+    else:
+        assert style_image is not None, "The style image should not be None."
+        if args.character_input:
+            assert args.content_character is not None, "The content_character should not be None."
+            if not is_char_in_font(args.content_character):
+                return None, None
+            font = load_ttf(ttf_path=args.ttf_path)
+            content_image = ttf2im(font=font, char=args.content_character)
+        else:
+            assert content_image is not None, "The content image should not be None."
+
+    ## Dataset transform
+    content_inference_transforms = transforms.Compose(
+        [transforms.Resize(args.content_image_size, \
+                            interpolation=transforms.InterpolationMode.BILINEAR),
+            transforms.ToTensor(),
+            transforms.Normalize([0.5], [0.5])])
+    style_inference_transforms = transforms.Compose(
+        [transforms.Resize(args.style_image_size, \
+                           interpolation=transforms.InterpolationMode.BILINEAR),
+         transforms.ToTensor(),
+         transforms.Normalize([0.5], [0.5])])
+    content_image = content_inference_transforms(content_image)[None, :]
+    style_image = style_inference_transforms(style_image)[None, :]
+
+    return content_image, style_image
 
 
 def sampling(args):
@@ -52,23 +95,13 @@ def sampling(args):
         guidance_scale=args.guidance_scale,
     )
     print("Loaded dpm_solver pipeline sucessfully!")
+    
+    content_image, style_image = image_process(args=args)
+    if content_image == None:
+        print(f"The content_character you provided is not in the ttf. \
+                Please change the content_character or you can change the ttf.")
+        return None
 
-    # Read content image and style image
-    content_image = Image.open(args.content_image_path).convert('RGB')
-    style_image = Image.open(args.style_image_path).convert('RGB')
-    ## Dataset transform
-    content_inference_transforms = transforms.Compose(
-        [transforms.Resize(args.content_image_size, \
-                            interpolation=transforms.InterpolationMode.BILINEAR),
-            transforms.ToTensor(),
-            transforms.Normalize([0.5], [0.5])])
-    style_inference_transforms = transforms.Compose(
-        [transforms.Resize(args.style_image_size, \
-                           interpolation=transforms.InterpolationMode.BILINEAR),
-         transforms.ToTensor(),
-         transforms.Normalize([0.5], [0.5])])
-    content_image = content_inference_transforms(content_image)[None, :]
-    style_image = style_inference_transforms(style_image)[None, :]
 
     with torch.no_grad():
         content_image = content_image.to(args.device)
@@ -108,12 +141,16 @@ if __name__=="__main__":
 
     parser = get_parser()
     parser.add_argument("--ckpt_dir", type=str, default=None)
+    parser.add_argument("--demo", action="store_true")
+    parser.add_argument("--character_input", action="store_true")
+    parser.add_argument("--content_character", type=str, default=None)
     parser.add_argument("--content_image_path", type=str, default=None)
     parser.add_argument("--style_image_path", type=str, default=None)
     parser.add_argument("--save_image", action="store_true")
     parser.add_argument("--save_image_dir", type=str, default=None,
                         help="The saving directory.")
     parser.add_argument("--device", type=str, default="cuda:0")
+    parser.add_argument("--ttf_path", type=str, default="ttf/KaiXinSongA.ttf")
     args = parser.parse_args()
     style_image_size = args.style_image_size
     content_image_size = args.content_image_size
