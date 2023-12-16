@@ -15,7 +15,7 @@
 
 
 <p align="center">
-   <strong><a href="#Model-Zoo">Model Zoo </a></strong> •
+   <strong><a href="#🔥-Model-Zoo">🔥 Model Zoo </a></strong> •
    <strong><a href="#Installation">Installation </a></strong> •
    <strong><a href="#Training">Training</a></strong> •
    <strong><a href="#Sampling">Sampling</a></strong> •
@@ -29,30 +29,89 @@
 + We release the 💻[Gradio Demo]() in Hugging Face.  
 
 ## 📅 News
+- **2023.12.16**: The gradio app script is realeased.
 - **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.
+- **2023.12.09**: 🎉 Our paper is accepted by AAAI2024.
 
 ## 🔥 Model Zoo
-[Here TABLE]  
-FontDiffuser ckpt, SCR training ckpt (coming soon), a large dataset ckpt (will be trained)
+| **Model**                                    | **chekcpoint** | **status** |
+|----------------------------------------------|----------------|------------|
+| **FontDiffuer**                              | [GoogleDrive]() / [BaiduYun]() / [OneDrive]() | Released  |
+| **SCR**                                      | [GoogleDrive]() / [BaiduYun]() / [OneDrive]() | Coming Soon           |
+| **FontDiffuer (trained by a large dataset)** | [GoogleDrive]() / [BaiduYun]() / [OneDrive]() | May Be Coming |
 
 ## 🚧 TODO List
 - [x] Add phase 1 training and sampling script.
-- [ ] Add WebUI demo.
+- [x] Add WebUI demo.
+- [ ] Push demo to Hugging Face.
 - [ ] Add phase 2 training script and checkpoint.
 - [ ] Add the pre-training of SCR module.
-coming soon ...
 
 ## 🛠️ Installation
-coming soon ...
+### Prerequisites(Recommended)
+- Linux
+- Python 3.9
+- Pytorch 1.13.1
+- CUDA 11.7
+
+### Environment Setup
+Clone this repo:
+```bash
+git clone https://github.com/yeungchenwa/FontDiffuser.git
+```
+
+**Step 0**: Download and install Miniconda from the [official website](https://docs.conda.io/en/latest/miniconda.html).
+
+**Step 1**: Create a conda environment and activate it.
+```bash
+conda create -n fontdiffuser python=3.9 -y
+conda activate fontdiffuser
+```
+
+**Step 2**: Install related version Pytorch following [here](https://pytorch.org/get-started/previous-versions/).
+```bash
+# Suggested
+pip install torch==1.13.1+cu117 torchvision==0.14.1+cu117 torchaudio==0.13.1 --extra-index-url https://download.pytorch.org/whl/cu117
+```
+
+**Step 3**: Install the required packages.
+```bash
+pip install -r requirements.txt
+```
 
 ## 🏋️ Training
-coming soon ...
+### Training - Phase 1
+```bash
+sh train_phase_1.sh
+```
+
+### Training - Phase 2
+Coming Soon...
 
 ## 📺 Sampling
-coming soon ...
+### Step 1 => Prepare the checkpoint   
+(1) Download the checkpoint or (2) Put your checkpoint to the folder `ckpt/`
+
+### Step 2 => Run the script  
+(1) Sampling image from content image.  
+```bash
+sh script/sample_content_image.sh
+```
+(2) Sampling image from content character.
+```bash
+sh script/sample_content_character.sh
+```
 
 ## 📱 Run WebUI
-coming soon ...
+### (1) Sampling by FontDiffuser
+```bash
+gradio gradio_app.py
+```
+
+### (2) Sampling by FontDiffuser and Rendering by ControlNet
+```bash
+gradio gradio_app_controlnet.py
+```
 
 ## 🌄 Gallery
 coming sonn ...
