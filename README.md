@@ -23,15 +23,15 @@
 </p>
 
 ## 🌟 Highlights
-[Here GIF]
+![Vis_1](figures/vis_1.png)
 + We propose **FontDiffuser**, which is capable to generate unseen characters and styles, and it can be extended to the cross-lingual generation, such as Chinese to Korean.
 + **FontDiffuser** excels in generating complex character and handling large style variation. And it achieves state-of-the-art performance. 
 + We release the 💻[Gradio Demo]() in Hugging Face.  
 
 ## 📅 News
-- **2023.12.16**: The gradio app demo is realeased.   
+- **2023.12.16**: The gradio app demo is realeased.  
 <img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
-- **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.
+- **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.    
 - **2023.12.09**: 🎉 Our paper is accepted by AAAI2024.
 
 ## 🔥 Model Zoo
@@ -87,7 +87,9 @@ sh train_phase_1.sh
 ```
 
 ### Training - Phase 2
+```bash
 Coming Soon...
+```
 
 ## 📺 Sampling
 ### Step 1 => Prepare the checkpoint   
@@ -108,8 +110,10 @@ sh script/sample_content_character.sh
 ```bash
 gradio gradio_app.py
 ```
-The UI is seen like this:
-![FontDiffuer_UI](figures/gradio_fontdiffuer.png)
+The UI is seen like this:   
+<p align="center">
+<img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
+</p>
 
 ### (2) Sampling by FontDiffuser and Rendering by ControlNet
 ```bash
