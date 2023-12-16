@@ -80,12 +80,38 @@ pip install -r requirements.txt
 ```
 
 ## 🏋️ Training
+### Training - Phase 1
+```bash
+sh train_phase_1.sh
+```
+
+### Training - Phase 2
+Coming Soon...
 
 ## 📺 Sampling
-coming soon ...
+### Step 1 => Prepare the checkpoint   
+(1) Download the checkpoint or (2) Put your checkpoint to the folder `ckpt/`
+
+### Step 2 => Run the script  
+(1) Sampling image from content image.  
+```bash
+sh script/sample_content_image.sh
+```
+(2) Sampling image from content character.
+```bash
+sh script/sample_content_character.sh
+```
 
 ## 📱 Run WebUI
-coming soon ...
+### (1) Sampling by FontDiffuser
+```bash
+gradio gradio_app.py
+```
+
+### (2) Sampling by FontDiffuser and Rendering by ControlNet
+```bash
+gradio gradio_app_controlnet.py
+```
 
 ## 🌄 Gallery
 coming sonn ...

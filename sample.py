@@ -58,8 +58,10 @@ def image_process(args, content_image=None, style_image=None):
                 return None, None
             font = load_ttf(ttf_path=args.ttf_path)
             content_image = ttf2im(font=font, char=args.content_character)
+            content_image_pil = content_image.copy()
         else:
             content_image = Image.open(args.content_image_path).convert('RGB')
+            content_image_pil = None
         style_image = Image.open(args.style_image_path).convert('RGB')
     else:
         assert style_image is not None, "The style image should not be None."
@@ -86,7 +88,7 @@ def image_process(args, content_image=None, style_image=None):
     content_image = content_inference_transforms(content_image)[None, :]
     style_image = style_inference_transforms(style_image)[None, :]
 
-    return content_image, style_image
+    return content_image, style_image, content_image_pil
 
 def load_fontdiffuer_pipeline(args):
     # Load the model state_dict
@@ -129,9 +131,9 @@ def sampling(args, pipe, content_image=None, style_image=None):
     if args.seed:
         set_seed(seed=args.seed)
     
-    content_image, style_image = image_process(args=args,
-                                               content_image=content_image,
-                                               style_image=style_image)
+    content_image, style_image, content_image_pil = image_process(args=args, 
+                                                                  content_image=content_image, 
+                                                                  style_image=style_image)
     if content_image == None:
         print(f"The content_character you provided is not in the ttf. \
                 Please change the content_character or you can change the ttf.")
@@ -161,11 +163,20 @@ def sampling(args, pipe, content_image=None, style_image=None):
         if args.save_image:
             print(f"Saving the image ......")
             save_single_image(save_dir=args.save_image_dir, image=images[0])
-            save_image_with_content_style(save_dir=args.save_image_dir,
-                                        image=images[0],
-                                        content_image_path=args.content_image_path,
-                                        style_image_path=args.style_image_path,
-                                        resolution=args.resolution)
+            if args.character_input:
+                save_image_with_content_style(save_dir=args.save_image_dir,
+                                            image=images[0],
+                                            content_image_pil=content_image_pil,
+                                            content_image_path=None,
+                                            style_image_path=args.style_image_path,
+                                            resolution=args.resolution)
+            else:
+                save_image_with_content_style(save_dir=args.save_image_dir,
+                                            image=images[0],
+                                            content_image_pil=None,
+                                            content_image_path=args.content_image_path,
+                                            style_image_path=args.style_image_path,
+                                            resolution=args.resolution)
             print(f"Finish the sampling process, costing time {end - start}s")
         return images[0]
 
