@@ -73,7 +73,8 @@ def image_process(args, content_image=None, style_image=None):
             content_image = ttf2im(font=font, char=args.content_character)
         else:
             assert content_image is not None, "The content image should not be None."
-
+        content_image_pil = None
+        
     ## Dataset transform
     content_inference_transforms = transforms.Compose(
         [transforms.Resize(args.content_image_size, \
@@ -220,6 +221,22 @@ def controlnet(text_prompt,
                  generator=generator, 
                  image=canny_image,
                  output_type='pil').images[0]
+    return image
+
+
+def load_instructpix2pix_pipeline(args,
+                                  ckpt_path="timbrooks/instruct-pix2pix"):
+    from diffusers import StableDiffusionInstructPix2PixPipeline
+    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(ckpt_path, 
+                                                                  torch_dtype=torch.float16)
+    pipe.to(args.device)
+
+    return pipe
+
+def instructpix2pix(pil_image, text_prompt, pipe):
+    image = pil_image.reisze((512, 512))
+    image = pipe(prompt=text_prompt, image=image).images[0]
+
     return image
 
 

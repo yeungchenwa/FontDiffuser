@@ -1,28 +1,35 @@
-import random
+import os
 import gradio as gr
 from sample import (arg_parse, 
                     sampling,
-                    load_fontdiffuer_pipeline)
+                    instructpix2pix,
+                    load_fontdiffuer_pipeline,
+                    load_instructpix2pix_pipeline)
 
 
-def run_fontdiffuer(source_image, 
+def run_fontdiffuer_with_instructpix2pix(source_image, 
                     character, 
                     reference_image,
                     sampling_step,
                     guidance_scale,
-                    batch_size):
+                    batch_size,
+                    text_prompt):
     args.character_input = False if source_image is not None else True
     args.content_character = character
     args.sampling_step = sampling_step
     args.guidance_scale = guidance_scale
     args.batch_size = batch_size
-    args.seed = random.randint(0, 10000)
-    out_image = sampling(
+    fontdiffuser_out_image = sampling(
         args=args,
         pipe=pipe,
         content_image=source_image,
         style_image=reference_image)
-    return out_image
+    
+    print(f"The text prompt used in Pix2Pix is {text_prompt}")
+    controlnet_out_image = instructpix2pix(text_prompt=text_prompt,
+                           pil_image=fontdiffuser_out_image,
+                           pipe=instructpix2pix_pipe)
+    return fontdiffuser_out_image, controlnet_out_image
 
 
 if __name__ == '__main__':
@@ -33,6 +40,13 @@ if __name__ == '__main__':
 
     # load fontdiffuer pipeline
     pipe = load_fontdiffuer_pipeline(args=args)
+    # load controlnet pipeline
+    if os.path.exists(f"{args.ckpt_dir}/instructpix2pix"):
+        ckpt_path = f"{args.ckpt_dir}/instructpix2pix"
+    else:
+        ckpt_path = "timbrooks/instruct-pix2pix"
+    instructpix2pix_pipe = load_instructpix2pix_pipeline(args=args, 
+                                                         ckpt_path=ckpt_path)
 
     with gr.Blocks() as demo:
         with gr.Row():
@@ -74,7 +88,9 @@ if __name__ == '__main__':
                     character = gr.Textbox(value='隆', label='[Option 2] Source Character')
                 with gr.Row():
                     fontdiffuer_output_image = gr.Image(height=200, label="FontDiffuser Output Image", image_mode='RGB', type='pil')
+                    instructpix2pix_output_image = gr.Image(height=200, label="InstructPix2Pix Output Image", image_mode='RGB', type='pil')
 
+                text_prompt = gr.Textbox(value='A dragon crawls around this character.', label='Text Prompt fot ControlNet')
                 sampling_step = gr.Slider(20, 50, value=20, step=10, 
                                           label="Sampling Step", info="The sampling step by FontDiffuser.")
                 guidance_scale = gr.Slider(1, 12, value=7.5, step=0.5, 
@@ -83,7 +99,7 @@ if __name__ == '__main__':
                 batch_size = gr.Slider(1, 4, value=1, step=1, 
                                        label="Batch Size", info="The number of images to be sampled.")
 
-                FontDiffuser = gr.Button('Run FontDiffuser')
+                FontDiffuser = gr.Button('Run FontDiffuser with InstructPix2Pix')
                 gr.Markdown("## <font color=#008000, size=6>Examples that You Can Choose Below⬇️</font>")
         with gr.Row():
             gr.Markdown("## Examples")
@@ -117,12 +133,13 @@ if __name__ == '__main__':
                     inputs=reference_image
                 )
         FontDiffuser.click(
-            fn=run_fontdiffuer,
+            fn=run_fontdiffuer_with_instructpix2pix,
             inputs=[source_image, 
                     character, 
                     reference_image,
                     sampling_step,
                     guidance_scale,
-                    batch_size],
-            outputs=fontdiffuer_output_image)
+                    batch_size,
+                    text_prompt],
+            outputs=[fontdiffuer_output_image, instructpix2pix_output_image])
     demo.launch(debug=True)
