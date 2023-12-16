@@ -1,6 +1,8 @@
 import argparse
 import gradio as gr
-from sample import arg_parse, sampling
+from sample import (arg_parse, 
+                    sampling,
+                    load_fontdiffuer_pipeline)
 
 
 def run_fontdiffuer(source_image, 
@@ -16,6 +18,7 @@ def run_fontdiffuer(source_image,
     args.batch_size = batch_size
     out_image = sampling(
         args=args,
+        pipe=pipe,
         content_image=source_image,
         style_image=reference_image)
     return out_image
@@ -26,6 +29,9 @@ if __name__ == '__main__':
     args.demo = True
     args.ckpt_dir = 'ckpt'
     args.ttf_path = 'ttf/KaiXinSongA.ttf'
+
+    # load fontdiffuer pipeline
+    pipe = load_fontdiffuer_pipeline(args=args)
 
     with gr.Blocks() as demo:
         with gr.Row():

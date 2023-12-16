@@ -1,5 +1,7 @@
 import os
+import cv2
 import time
+import numpy as np
 from PIL import Image
 
 import torch
@@ -83,16 +85,7 @@ def image_process(args, content_image=None, style_image=None):
 
     return content_image, style_image
 
-
-def sampling(args, content_image=None, style_image=None):
-    if not args.demo:
-        os.makedirs(args.save_image_dir, exist_ok=True)
-        # saving sampling config
-        save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
-
-    if args.seed:
-        set_seed(seed=args.seed)
-
+def load_fontdiffuer_pipeline(args):
     # Load the model state_dict
     unet = build_unet(args=args)
     unet.load_state_dict(torch.load(f"{args.ckpt_dir}/unet.pth"))
@@ -120,6 +113,18 @@ def sampling(args, content_image=None, style_image=None):
         guidance_scale=args.guidance_scale,
     )
     print("Loaded dpm_solver pipeline sucessfully!")
+
+    return pipe
+
+
+def sampling(args, pipe, content_image=None, style_image=None):
+    if not args.demo:
+        os.makedirs(args.save_image_dir, exist_ok=True)
+        # saving sampling config
+        save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
+
+    if args.seed:
+        set_seed(seed=args.seed)
     
     content_image, style_image = image_process(args=args,
                                                content_image=content_image,
@@ -128,7 +133,6 @@ def sampling(args, content_image=None, style_image=None):
         print(f"The content_character you provided is not in the ttf. \
                 Please change the content_character or you can change the ttf.")
         return None
-
 
     with torch.no_grad():
         content_image = content_image.to(args.device)
@@ -169,4 +173,6 @@ def sampling(args, content_image=None, style_image=None):
 if __name__=="__main__":
     args = arg_parse()
     
-    out_image = sampling(args=args)
+    # load fontdiffuser pipeline
+    pipe = load_fontdiffuer_pipeline(args=args)
+    out_image = sampling(args=args, pipe=pipe)
