@@ -17,7 +17,7 @@ from utils import (save_args_to_yaml,
                    save_image_with_content_style)
 
 
-def main(args):
+def sampling(args):
     os.makedirs(args.save_image_dir, exist_ok=True)
     # saving sampling config
     save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
@@ -91,14 +91,16 @@ def main(args):
             correcting_x0_fn=args.correcting_x0_fn)
         end = time.time()
 
-        print(f"Saving the image ......")
-        save_single_image(save_dir=args.save_image_dir, image=images[0])
-        save_image_with_content_style(save_dir=args.save_image_dir,
-                                      image=images[0],
-                                      content_image_path=args.content_image_path,
-                                      style_image_path=args.style_image_path,
-                                      resolution=args.resolution)
-        print(f"Finish the sampling process, costing time {end - start}s")
+        if args.save_image:
+            print(f"Saving the image ......")
+            save_single_image(save_dir=args.save_image_dir, image=images[0])
+            save_image_with_content_style(save_dir=args.save_image_dir,
+                                        image=images[0],
+                                        content_image_path=args.content_image_path,
+                                        style_image_path=args.style_image_path,
+                                        resolution=args.resolution)
+            print(f"Finish the sampling process, costing time {end - start}s")
+        return images[0]
 
 
 if __name__=="__main__":
@@ -108,6 +110,7 @@ if __name__=="__main__":
     parser.add_argument("--ckpt_dir", type=str, default=None)
     parser.add_argument("--content_image_path", type=str, default=None)
     parser.add_argument("--style_image_path", type=str, default=None)
+    parser.add_argument("--save_image", action="store_true")
     parser.add_argument("--save_image_dir", type=str, default=None,
                         help="The saving directory.")
     parser.add_argument("--device", type=str, default="cuda:0")
@@ -117,4 +120,4 @@ if __name__=="__main__":
     args.style_image_size = (style_image_size, style_image_size)
     args.content_image_size = (content_image_size, content_image_size)
     
-    main(args=args)
+    out_image = sampling(args=args)
