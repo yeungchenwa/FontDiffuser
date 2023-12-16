@@ -24,7 +24,7 @@
 
 ## 🌟 Highlights
 [Here GIF]
-+ We propose **FontDiffuser**, which is capable to generate unseen characters and styles, and it can be extended to the cross-lingual generation, such as Chinese to Korean..
++ We propose **FontDiffuser**, which is capable to generate unseen characters and styles, and it can be extended to the cross-lingual generation, such as Chinese to Korean.
 + **FontDiffuser** excels in generating complex character and handling large style variation. And it achieves state-of-the-art performance. 
 + We release the 💻[Gradio Demo]() in Hugging Face.  
 
