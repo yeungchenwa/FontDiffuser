@@ -20,6 +20,30 @@ from utils import (ttf2im,
                    save_image_with_content_style)
 
 
+def arg_parse():
+    from configs.fontdiffuser import get_parser
+
+    parser = get_parser()
+    parser.add_argument("--ckpt_dir", type=str, default=None)
+    parser.add_argument("--demo", action="store_true")
+    parser.add_argument("--character_input", action="store_true")
+    parser.add_argument("--content_character", type=str, default=None)
+    parser.add_argument("--content_image_path", type=str, default=None)
+    parser.add_argument("--style_image_path", type=str, default=None)
+    parser.add_argument("--save_image", action="store_true")
+    parser.add_argument("--save_image_dir", type=str, default=None,
+                        help="The saving directory.")
+    parser.add_argument("--device", type=str, default="cuda:0")
+    parser.add_argument("--ttf_path", type=str, default="ttf/KaiXinSongA.ttf")
+    args = parser.parse_args()
+    style_image_size = args.style_image_size
+    content_image_size = args.content_image_size
+    args.style_image_size = (style_image_size, style_image_size)
+    args.content_image_size = (content_image_size, content_image_size)
+
+    return args
+
+
 def image_process(args, content_image=None, style_image=None):
     if not args.demo:
         # Read content image and style image
@@ -36,7 +60,7 @@ def image_process(args, content_image=None, style_image=None):
         assert style_image is not None, "The style image should not be None."
         if args.character_input:
             assert args.content_character is not None, "The content_character should not be None."
-            if not is_char_in_font(args.content_character):
+            if not is_char_in_font(font_path=args.ttf_path, char=args.content_character):
                 return None, None
             font = load_ttf(ttf_path=args.ttf_path)
             content_image = ttf2im(font=font, char=args.content_character)
@@ -60,10 +84,11 @@ def image_process(args, content_image=None, style_image=None):
     return content_image, style_image
 
 
-def sampling(args):
-    os.makedirs(args.save_image_dir, exist_ok=True)
-    # saving sampling config
-    save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
+def sampling(args, content_image=None, style_image=None):
+    if not args.demo:
+        os.makedirs(args.save_image_dir, exist_ok=True)
+        # saving sampling config
+        save_args_to_yaml(args=args, output_file=f"{args.save_image_dir}/sampling_config.yaml")
 
     if args.seed:
         set_seed(seed=args.seed)
@@ -96,7 +121,9 @@ def sampling(args):
     )
     print("Loaded dpm_solver pipeline sucessfully!")
     
-    content_image, style_image = image_process(args=args)
+    content_image, style_image = image_process(args=args,
+                                               content_image=content_image,
+                                               style_image=style_image)
     if content_image == None:
         print(f"The content_character you provided is not in the ttf. \
                 Please change the content_character or you can change the ttf.")
@@ -133,28 +160,13 @@ def sampling(args):
                                         style_image_path=args.style_image_path,
                                         resolution=args.resolution)
             print(f"Finish the sampling process, costing time {end - start}s")
-        return images[0]
+        if args.demo:
+            return images[0].resize((128, 128), Image.BICUBIC)
+        else:
+            return images[0]
 
 
 if __name__=="__main__":
-    from configs.fontdiffuser import get_parser
-
-    parser = get_parser()
-    parser.add_argument("--ckpt_dir", type=str, default=None)
-    parser.add_argument("--demo", action="store_true")
-    parser.add_argument("--character_input", action="store_true")
-    parser.add_argument("--content_character", type=str, default=None)
-    parser.add_argument("--content_image_path", type=str, default=None)
-    parser.add_argument("--style_image_path", type=str, default=None)
-    parser.add_argument("--save_image", action="store_true")
-    parser.add_argument("--save_image_dir", type=str, default=None,
-                        help="The saving directory.")
-    parser.add_argument("--device", type=str, default="cuda:0")
-    parser.add_argument("--ttf_path", type=str, default="ttf/KaiXinSongA.ttf")
-    args = parser.parse_args()
-    style_image_size = args.style_image_size
-    content_image_size = args.content_image_size
-    args.style_image_size = (style_image_size, style_image_size)
-    args.content_image_size = (content_image_size, content_image_size)
+    args = arg_parse()
     
     out_image = sampling(args=args)

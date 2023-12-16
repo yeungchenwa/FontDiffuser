@@ -1,7 +1,31 @@
+import argparse
 import gradio as gr
+from sample import arg_parse, sampling
+
+
+def run_fontdiffuer(source_image, 
+                    character, 
+                    reference_image,
+                    sampling_step,
+                    guidance_scale,
+                    batch_size):
+    args.character_input = False if source_image is not None else True
+    args.content_character = character
+    args.sampling_step = sampling_step
+    args.guidance_scale = guidance_scale
+    args.batch_size = batch_size
+    out_image = sampling(
+        args=args,
+        content_image=source_image,
+        style_image=reference_image)
+    return out_image
 
 
 if __name__ == '__main__':
+    args = arg_parse()
+    args.demo = True
+    args.ckpt_dir = 'ckpt'
+    args.ttf_path = 'ttf/KaiXinSongA.ttf'
 
     with gr.Blocks() as demo:
         with gr.Row():
@@ -38,10 +62,10 @@ if __name__ == '__main__':
             with gr.Column(scale=1):
                 with gr.Row():
                     with gr.Column():
-                        source_image = gr.Image(label='[Option 1] Source Image')
-                        character = gr.Text(value='隆', label='[Option 2] Source Character')
-                    reference_image = gr.Image(label='Reference Image')
-                output_image = gr.Image(label="Output Image")
+                        source_image = gr.Image(width=320, label='[Option 1] Source Image', image_mode='RGB', type='pil')
+                        character = gr.Textbox(value='隆', label='[Option 2] Source Character')
+                        reference_image = gr.Image(width=320, label='Reference Image', image_mode='RGB', type='pil')
+                    output_image = gr.Image(width=320, label="Output Image", image_mode='RGB', type='pil')
 
                 sampling_step = gr.Slider(20, 50, value=20, step=10, 
                                           label="Sampling Step", info="The sampling step by FontDiffuser.")
@@ -51,7 +75,7 @@ if __name__ == '__main__':
                 batch_size = gr.Slider(1, 4, value=1, step=1, 
                                        label="Batch Size", info="The number of images to be sampled.")
 
-                mmocr = gr.Button('Run FontDiffuser')
+                FontDiffuser = gr.Button('Run FontDiffuser')
                 gr.Markdown("## <font color=#008000, size=6>Examples that You Can Choose Below⬇️</font>")
         with gr.Row():
             gr.Markdown("## Examples")
@@ -84,4 +108,13 @@ if __name__ == '__main__':
                             'figures/ref_imgs/ref_簸.jpg'],
                     inputs=reference_image
                 )
+        FontDiffuser.click(
+            fn=run_fontdiffuer,
+            inputs=[source_image, 
+                    character, 
+                    reference_image,
+                    sampling_step,
+                    guidance_scale,
+                    batch_size],
+            outputs=output_image)
     demo.launch(debug=True)
