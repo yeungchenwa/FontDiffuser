@@ -1,4 +1,5 @@
 import os
+import random
 import gradio as gr
 from sample import (arg_parse, 
                     sampling,
@@ -25,7 +26,8 @@ def run_fontdiffuer_with_instructpix2pix(source_image,
         content_image=source_image,
         style_image=reference_image)
     
-    print(f"The text prompt used in Pix2Pix is {text_prompt}")
+    args.seed = random.randint(0, 10000)
+    print(f"The text prompt used in InstructPix2Pix is {text_prompt}")
     controlnet_out_image = instructpix2pix(text_prompt=text_prompt,
                            pil_image=fontdiffuser_out_image,
                            pipe=instructpix2pix_pipe)

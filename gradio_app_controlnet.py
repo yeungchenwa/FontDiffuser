@@ -1,4 +1,5 @@
 import os
+import random
 import gradio as gr
 from sample import (arg_parse, 
                     sampling,
@@ -25,6 +26,7 @@ def run_fontdiffuer_with_controlnet(source_image,
         content_image=source_image,
         style_image=reference_image)
     
+    args.seed = random.randint(0, 10000)
     print(f"The text prompt used in ControlNet is {text_prompt}")
     controlnet_out_image = controlnet(text_prompt=text_prompt,
                            pil_image=fontdiffuser_out_image,

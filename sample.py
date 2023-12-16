@@ -234,7 +234,7 @@ def load_instructpix2pix_pipeline(args,
     return pipe
 
 def instructpix2pix(pil_image, text_prompt, pipe):
-    image = pil_image.reisze((512, 512))
+    image = pil_image.resize((512, 512))
     image = pipe(prompt=text_prompt, image=image).images[0]
 
     return image
