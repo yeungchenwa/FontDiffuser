@@ -1,27 +1,35 @@
-import argparse
+import os
 import gradio as gr
 from sample import (arg_parse, 
                     sampling,
-                    load_fontdiffuer_pipeline)
+                    controlnet,
+                    load_fontdiffuer_pipeline,
+                    load_controlnet_pipeline)
 
 
-def run_fontdiffuer(source_image, 
+def run_fontdiffuer_with_controlnet(source_image, 
                     character, 
                     reference_image,
                     sampling_step,
                     guidance_scale,
-                    batch_size):
+                    batch_size,
+                    text_prompt):
     args.character_input = False if source_image is not None else True
     args.content_character = character
     args.sampling_step = sampling_step
     args.guidance_scale = guidance_scale
     args.batch_size = batch_size
-    out_image = sampling(
+    fontdiffuser_out_image = sampling(
         args=args,
         pipe=pipe,
         content_image=source_image,
         style_image=reference_image)
-    return out_image
+    
+    print(f"The text prompt used in ControlNet is {text_prompt}")
+    controlnet_out_image = controlnet(text_prompt=text_prompt,
+                           pil_image=fontdiffuser_out_image,
+                           pipe=controlnet_pipe)
+    return fontdiffuser_out_image, controlnet_out_image
 
 
 if __name__ == '__main__':
@@ -32,6 +40,16 @@ if __name__ == '__main__':
 
     # load fontdiffuer pipeline
     pipe = load_fontdiffuer_pipeline(args=args)
+    # load controlnet pipeline
+    if os.path.exists(f"{args.ckpt_dir}/controlnet"):
+        config_path = f"{args.ckpt_dir}/controlnet"
+        ckpt_path = f"{args.ckpt_dir}/controlnet_pipeline"
+    else:
+        config_path = None
+        ckpt_path = None
+    controlnet_pipe = load_controlnet_pipeline(args=args, 
+                                               config_path=config_path, 
+                                               ckpt_path=ckpt_path)
 
     with gr.Blocks() as demo:
         with gr.Row():
@@ -73,7 +91,9 @@ if __name__ == '__main__':
                     character = gr.Textbox(value='隆', label='[Option 2] Source Character')
                 with gr.Row():
                     fontdiffuer_output_image = gr.Image(height=200, label="FontDiffuser Output Image", image_mode='RGB', type='pil')
+                    controlnet_output_image = gr.Image(height=200, label="ControlNet Output Image", image_mode='RGB', type='pil')
 
+                text_prompt = gr.Textbox(value='A dragon around the character.', label='Text Prompt fot ControlNet')
                 sampling_step = gr.Slider(20, 50, value=20, step=10, 
                                           label="Sampling Step", info="The sampling step by FontDiffuser.")
                 guidance_scale = gr.Slider(1, 12, value=7.5, step=0.5, 
@@ -82,7 +102,7 @@ if __name__ == '__main__':
                 batch_size = gr.Slider(1, 4, value=1, step=1, 
                                        label="Batch Size", info="The number of images to be sampled.")
 
-                FontDiffuser = gr.Button('Run FontDiffuser')
+                FontDiffuser = gr.Button('Run FontDiffuser with ControlNet')
                 gr.Markdown("## <font color=#008000, size=6>Examples that You Can Choose Below⬇️</font>")
         with gr.Row():
             gr.Markdown("## Examples")
@@ -116,12 +136,13 @@ if __name__ == '__main__':
                     inputs=reference_image
                 )
         FontDiffuser.click(
-            fn=run_fontdiffuer,
+            fn=run_fontdiffuer_with_controlnet,
             inputs=[source_image, 
                     character, 
                     reference_image,
                     sampling_step,
                     guidance_scale,
-                    batch_size],
-            outputs=fontdiffuer_output_image)
+                    batch_size,
+                    text_prompt],
+            outputs=[fontdiffuer_output_image, controlnet_output_image])
     demo.launch(debug=True)
