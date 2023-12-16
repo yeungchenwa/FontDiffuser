@@ -224,6 +224,22 @@ def controlnet(text_prompt,
     return image
 
 
+def load_instructpix2pix_pipeline(args,
+                                  ckpt_path="timbrooks/instruct-pix2pix"):
+    from diffusers import StableDiffusionInstructPix2PixPipeline
+    pipe = StableDiffusionInstructPix2PixPipeline.from_pretrained(ckpt_path, 
+                                                                  torch_dtype=torch.float16)
+    pipe.to(args.device)
+
+    return pipe
+
+def instructpix2pix(pil_image, text_prompt, pipe):
+    image = pil_image.reisze((512, 512))
+    image = pipe(prompt=text_prompt, image=image).images[0]
+
+    return image
+
+
 if __name__=="__main__":
     args = arg_parse()
     
