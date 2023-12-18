@@ -94,7 +94,9 @@ if __name__ == '__main__':
                             the reference image for you to try our demo!")
                 gr.Examples(
                     examples=[['figures/source_imgs/source_灨.jpg', 'figures/ref_imgs/ref_籍.jpg'], 
-                            ['figures/source_imgs/source_鑫.jpg', 'figures/ref_imgs/ref_簸.jpg']],
+                            ['figures/source_imgs/source_鑻.jpg', 'figures/ref_imgs/ref_鹰.jpg'],
+                            ['figures/source_imgs/source_鑫.jpg', 'figures/ref_imgs/ref_壤.jpg'],
+                            ['figures/source_imgs/source_釅.jpg', 'figures/ref_imgs/ref_雕.jpg']],
                     inputs=[source_image, reference_image]
                 )
             with gr.Column(scale=1):
@@ -102,8 +104,10 @@ if __name__ == '__main__':
                 gr.Markdown("### In this mode, we provide the content character and the reference image \
                             for you to try our demo!")
                 gr.Examples(
-                    examples=[['霸', 'figures/ref_imgs/ref_籍.jpg'], 
-                            ['窿', 'figures/ref_imgs/ref_簸.jpg']],
+                    examples=[['龍', 'figures/ref_imgs/ref_鷢.jpg'],
+                            ['轉', 'figures/ref_imgs/ref_鲸.jpg'],
+                            ['懭', 'figures/ref_imgs/ref_籍_1.jpg'],
+                            ['識', 'figures/ref_imgs/ref_鞣.jpg']],
                     inputs=[character, reference_image]
                 )
             with gr.Column(scale=1):
@@ -112,8 +116,23 @@ if __name__ == '__main__':
                             you can upload your own source image or you choose the character above \
                             to try our demo!")
                 gr.Examples(
-                    examples=['figures/ref_imgs/ref_籍.jpg', 
-                            'figures/ref_imgs/ref_簸.jpg'],
+                    examples=['figures/ref_imgs/ref_闡.jpg', 
+                            'figures/ref_imgs/ref_雕.jpg',
+                            'figures/ref_imgs/ref_豄.jpg',
+                            'figures/ref_imgs/ref_馨.jpg',
+                            'figures/ref_imgs/ref_鲸.jpg',
+                            'figures/ref_imgs/ref_檀.jpg',
+                            'figures/ref_imgs/ref_鞣.jpg',
+                            'figures/ref_imgs/ref_穗.jpg',
+                            'figures/ref_imgs/ref_欟.jpg',
+                            'figures/ref_imgs/ref_籍_1.jpg',
+                            'figures/ref_imgs/ref_鷢.jpg',
+                            'figures/ref_imgs/ref_媚.jpg',
+                            'figures/ref_imgs/ref_籍.jpg',
+                            'figures/ref_imgs/ref_壤.jpg',
+                            'figures/ref_imgs/ref_蜓.jpg',
+                            'figures/ref_imgs/ref_鹰.jpg'],
+                    examples_per_page=20,
                     inputs=reference_image
                 )
         FontDiffuser.click(
