@@ -9,8 +9,9 @@
 <p align="center">
     <a href='111'><img src='https://img.shields.io/badge/Arxiv-2312.98527-red'>
     <a href='https://github.com/yeungchenwa/FontDiffuser'><img src='https://img.shields.io/badge/Code-aka.ms/fontdiffuser-yellow'>
+    <a href='https://yeungchenwa.github.io/fontdiffuser-homepage/'><img src='https://img.shields.io/badge/Homepage-link-green'></a>
     <!-- </a> [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-TextDiffuser-blue)](https://huggingface.co/spaces/JingyeChen22/TextDiffuser) -->
-    <a href=''><img src='https://img.shields.io/badge/GoogleColab-link-purple'>    
+    <!-- <a href=''><img src='https://img.shields.io/badge/GoogleColab-link-purple'>     -->
 </p>
 
 
@@ -35,6 +36,7 @@
 <img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
 - **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.    
 - **2023.12.09**: 🎉 Our paper is accepted by AAAI2024.
+- **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image gneeration tasks. Welcome to check it out!
 
 ## 🔥 Model Zoo
 | **Model**                                    | **chekcpoint** | **status** |
@@ -84,8 +86,8 @@ pip install -r requirements.txt
 ```
 
 ## 🏋️ Training
-### Data Contruction
-The training data files tree should be (The data examples are listed in directory `data_examples/train/`):
+### Data Construction
+The training data files tree should be (The data examples are shown in directory `data_examples/train/`):
 ```
 ├──data_examples
 │   └── train
@@ -113,7 +115,17 @@ The training data files tree should be (The data examples are listed in director
 ```bash
 sh train_phase_1.sh
 ```
-- `data_root`
+- `data_root`: The data root, like `./data_examples`
+- `output_dir`: The training output logs and checkpoints saving directory.
+- `resolution`: The resolution of the UNet in our diffusion model.
+- `style_image_size`: The resolution of the style image, can be different with `resolution`.
+- `content_image_size`: The resolution of the content image, should be the same as the `resolution`.
+- `channel_attn`: Whether to use the channel attention in MCA block.
+- `train_batch_size`: The batch size in the training.
+- `max_train_steps`: The maximum of the training steps.
+- `learning_rate`: The learning rate when training.
+- `ckpt_interval`: The checkpoint saving interval when training.
+- `drop_prob`: The classifier-free guidance training probability.
 
 ### Training - Phase 2
 ```bash
@@ -122,19 +134,31 @@ Coming Soon...
 
 ## 📺 Sampling
 ### Step 1 => Prepare the checkpoint   
-Option (1) Download the checkpoint following:
-or (2) Put your checkpoint to the 
+**Option (1) Download the checkpoint following:**.  
+**Option (2) Put your checkpoint to the**
 
 ### Step 2 => Run the script  
-(1) Sampling image from content image.  
+**(1) Sampling image from content image and reference image.**  
 ```bash
 sh script/sample_content_image.sh
 ```
-(2) Sampling image from content character.  
-**Note** Maybe you need a ttf file that contains numerous Chinese characters, you can download it from here [BaiduYun:wrth](https://pan.baidu.com/s/1LhcXG4tPcso9BLaUzU6KtQ).
+- `ckpt_dir`: The model checkpoints saved path, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`. You can download them from one of [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) without training.  
+- `content_image_path`: The content/source image path.
+- `style_image_path`: The style/reference image path.
+- `save_image`: set `True` if saving as images.
+- `save_image_dir`: The saving image directory, the saving files including `out_single.png` and `out_with_cs.png`.
+- `device`: The sampling device, recommended GPU acceleration.
+- `guidance_scale`: The classifier-free sampling guidance scale.
+- `num_inference_steps`: The inference step by DPM-Solver++.
+
+**(2) Sampling image from content character.**  
+**Note** Maybe you need a ttf file that contains numerous Chinese characters, you can download it from [BaiduYun:wrth](https://pan.baidu.com/s/1LhcXG4tPcso9BLaUzU6KtQ).
 ```bash
 sh script/sample_content_character.sh
 ```
+- `character_input`: In this option, use character string as content/source input.
+- `content_character`: The content/source content character string.
+- The other parameters are the same as the above option.
 
 ## 📱 Run WebUI
 ### (1) Sampling by FontDiffuser
@@ -146,13 +170,23 @@ gradio gradio_app.py
 <img src="figures/gradio_fontdiffuer.png" width="80%" height="auto">
 </p>
 
-### (2) Sampling by FontDiffuser and Rendering by ControlNet
+### (2) Sampling by FontDiffuser and Rendering by InstructPix2Pix
 ```bash
-gradio gradio_app_controlnet.py
+Coming Soon ...
 ```
 
 ## 🌄 Gallery
-coming sonn ...
+### Characters of hard level of complexity
+![vis_hard](figures/vis_hard.png)
+
+### Characters of medium level of complexity
+![vis_medium](figures/vis_medium.png)
+
+### Characters of easy level of complexity
+![vis_easy](figures/vis_easy.png)
+
+### Cross-Lingual Generation (Chinese to Korean)
+![vis_korean](figures/vis_korean.png)
 
 ## ⭐ Star Rising
 [![Star Rising](https://api.star-history.com/svg?repos=yeungchenwa/FontDiffuser&type=Timeline)](https://star-history.com/#yeungchenwa/FontDiffuser&Timeline)
