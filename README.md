@@ -6,13 +6,14 @@
 
 ![FontDiffuser_LOGO](figures/logo.png)  
 
-<p align="center">
-    <a href='111'><img src='https://img.shields.io/badge/Arxiv-2312.98527-red'>
-    <a href='https://github.com/yeungchenwa/FontDiffuser'><img src='https://img.shields.io/badge/Code-aka.ms/fontdiffuser-yellow'>
-    <a href='https://yeungchenwa.github.io/fontdiffuser-homepage/'><img src='https://img.shields.io/badge/Homepage-link-green'></a>
-    <!-- </a> [![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-TextDiffuser-blue)](https://huggingface.co/spaces/JingyeChen22/TextDiffuser) -->
-    <!-- <a href=''><img src='https://img.shields.io/badge/GoogleColab-link-purple'>     -->
-</p>
+<div align=center>
+
+[![arXiv preprint](http://img.shields.io/badge/arXiv-2037.08723-b31b1b)]() 
+[![Gradio demo](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FontDiffuser-ff7c00)]()
+[![Homepage](https://img.shields.io/badge/Homepage-FontDiffuser-green)](https://yeungchenwa.github.io/fontdiffuser-homepage/)
+[![Code](https://img.shields.io/badge/Code-aka.ms/FontDiffuser-yellow)](https://github.com/yeungchenwa/FontDiffuser)
+
+</div>
 
 
 <p align="center">
