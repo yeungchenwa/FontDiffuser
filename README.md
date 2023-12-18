@@ -135,15 +135,15 @@ Coming Soon...
 
 ## 📺 Sampling
 ### Step 1 => Prepare the checkpoint   
-**Option (1) Download the checkpoint following:**.  
-**Option (2) Put your checkpoint to the**
+Option (1) Download the checkpoint following [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ), then put the `ckpt` to the root directory, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`.  
+Option (2) Put your re-training checkpoint to the `ckpt` in root directory, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`.
 
 ### Step 2 => Run the script  
 **(1) Sampling image from content image and reference image.**  
 ```bash
 sh script/sample_content_image.sh
 ```
-- `ckpt_dir`: The model checkpoints saved path, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`. You can download them from one of [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) without training.  
+- `ckpt_dir`: The model checkpoints saved path.  
 - `content_image_path`: The content/source image path.
 - `style_image_path`: The style/reference image path.
 - `save_image`: set `True` if saving as images.
