@@ -65,7 +65,7 @@ if __name__ == '__main__':
                     </div>
                     """)
                 gr.Image('figures/result_vis.png')
-                gr.Image('figures/demo_pipeline.png')
+                gr.Image('figures/demo_tips.png')
             with gr.Column(scale=1):
                 with gr.Row():
                     source_image = gr.Image(width=320, label='[Option 1] Source Image', image_mode='RGB', type='pil')
