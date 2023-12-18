@@ -189,5 +189,24 @@ Coming Soon ...
 ### Cross-Lingual Generation (Chinese to Korean)
 ![vis_korean](figures/vis_korean.png)
 
+## 💙 Acknowledgement
+- [diffusers](https://github.com/huggingface/diffusers)
+
+## Copyright
+- This repository can only be used for non-commercial research purpose.
+- For commercial use, please contact Prof. Lianwen Jin (eelwjin@scut.edu.cn).
+- Copyright 2023, [Deep Learning and Vision Computing Lab (DLVC-Lab)](http://www.dlvc-lab.net), South China University of Technology. 
+
+## Citation
+```
+@inproceedings{peng2022spts,
+  title={FontDiffuser: One-Shot Font Generation via Denoising Diffusion with
+Multi-Scale Content Aggregation and Style Contrastive Learning},
+  author={Yang, Zhenhua and Peng, Dezhi and Kong, Yuxin and Zhang, Yuyi and Yao, Cong and Jin, Lianwen},
+  booktitle={Proceedings of the AAAI conference on artificial intelligence},
+  year={2024}
+}
+```
+
 ## ⭐ Star Rising
 [![Star Rising](https://api.star-history.com/svg?repos=yeungchenwa/FontDiffuser&type=Timeline)](https://star-history.com/#yeungchenwa/FontDiffuser&Timeline)
