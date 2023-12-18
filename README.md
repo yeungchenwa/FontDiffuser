@@ -15,11 +15,11 @@
 
 
 <p align="center">
-   <strong><a href="#🔥-Model-Zoo">🔥 Model Zoo </a></strong> •
-   <strong><a href="#Installation">Installation </a></strong> •
-   <strong><a href="#Training">Training</a></strong> •
-   <strong><a href="#Sampling">Sampling</a></strong> •
-   <strong><a href="#Run-WebUI">Run WebUI</a></strong>   
+   <strong><a href="#🔥-model-zoo">🔥 Model Zoo </a></strong> •
+   <strong><a href="#🛠️-installation">🛠️ Installation </a></strong> •
+   <strong><a href="#🏋️-training">🏋️ Training</a></strong> •
+   <strong><a href="#📺-sampling">📺 Sampling</a></strong> •
+   <strong><a href="#📱-run-webui">📱 Run WebUI</a></strong>   
 </p>
 
 ## 🌟 Highlights
@@ -29,6 +29,7 @@
 + We release the 💻[Gradio Demo]() in Hugging Face.  
 
 ## 📅 News
+- **2023.12.16**: Our demo is combined with InstructPix2Pix and ControlNet.  
 - **2023.12.16**: The gradio app demo is realeased.  
 <img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
 - **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.    
@@ -37,9 +38,9 @@
 ## 🔥 Model Zoo
 | **Model**                                    | **chekcpoint** | **status** |
 |----------------------------------------------|----------------|------------|
-| **FontDiffuer**                              | [GoogleDrive]() / [BaiduYun]() / [OneDrive]() | Released  |
-| **SCR**                                      | [GoogleDrive]() / [BaiduYun]() / [OneDrive]() | Coming Soon           |
-| **FontDiffuer (trained by a large dataset)** | [GoogleDrive]() / [BaiduYun]() / [OneDrive]() | May Be Coming |
+| **FontDiffuer**                              | [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) | Released  |
+| **SCR**                                      | - | Coming Soon           |
+| **FontDiffuer (trained by a large dataset)** | - | May Be Coming |
 
 ## 🚧 TODO List
 - [x] Add phase 1 training and sampling script.
@@ -49,7 +50,7 @@
 - [ ] Add the pre-training of SCR module.
 
 ## 🛠️ Installation
-### Prerequisites(Recommended)
+### Prerequisites (Recommended)
 - Linux
 - Python 3.9
 - Pytorch 1.13.1
@@ -81,10 +82,36 @@ pip install -r requirements.txt
 ```
 
 ## 🏋️ Training
+### Data Contruction
+The training data files tree should be (The data examples are listed in directory `data_examples/train/`):
+```
+├──data_examples
+│   └── train
+│       ├── ContentImage
+│       │   ├── char0.png
+│       │   ├── char1.png
+│       │   ├── char2.png
+│       │   └── ...
+│       └── TargetImage.png
+│           ├── style0
+│           │     ├──style0+char0.png
+│           │     ├──style0+char1.png
+│           │     └── ...
+│           ├── style1
+│           │     ├──style1+char0.png
+│           │     ├──style1+char1.png
+│           │     └── ...
+│           ├── style2
+│           │     ├──style2+char0.png
+│           │     ├──style2+char1.png
+│           │     └── ...
+│           └── ...
+```
 ### Training - Phase 1
 ```bash
 sh train_phase_1.sh
 ```
+- `data_root`
 
 ### Training - Phase 2
 ```bash
@@ -93,14 +120,16 @@ Coming Soon...
 
 ## 📺 Sampling
 ### Step 1 => Prepare the checkpoint   
-(1) Download the checkpoint or (2) Put your checkpoint to the folder `ckpt/`
+Option (1) Download the checkpoint following:
+or (2) Put your checkpoint to the 
 
 ### Step 2 => Run the script  
 (1) Sampling image from content image.  
 ```bash
 sh script/sample_content_image.sh
 ```
-(2) Sampling image from content character.
+(2) Sampling image from content character.  
+**Note** Maybe you need a ttf file that contains numerous Chinese characters, you can download it from here [BaiduYun:wrth](https://pan.baidu.com/s/1LhcXG4tPcso9BLaUzU6KtQ).
 ```bash
 sh script/sample_content_character.sh
 ```
@@ -110,7 +139,7 @@ sh script/sample_content_character.sh
 ```bash
 gradio gradio_app.py
 ```
-The UI is seen like this:   
+**Example**:   
 <p align="center">
 <img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
 </p>
