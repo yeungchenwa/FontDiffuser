@@ -24,12 +24,13 @@
 
 ## 🌟 Highlights
 ![Vis_1](figures/vis_1.png)
+![Vis_2](figures/with_instructpix2pix.png)
 + We propose **FontDiffuser**, which is capable to generate unseen characters and styles, and it can be extended to the cross-lingual generation, such as Chinese to Korean.
 + **FontDiffuser** excels in generating complex character and handling large style variation. And it achieves state-of-the-art performance. 
++ The generated results* by **FontDiffuser** can be perfectly used for **InstructPix2Pix** for decoration, as shown above.
 + We release the 💻[Gradio Demo]() in Hugging Face.  
 
 ## 📅 News
-- **2023.12.16**: Our demo is combined with InstructPix2Pix and ControlNet.  
 - **2023.12.16**: The gradio app demo is realeased.  
 <img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
 - **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.    
@@ -46,6 +47,7 @@
 - [x] Add phase 1 training and sampling script.
 - [x] Add WebUI demo.
 - [ ] Push demo to Hugging Face.
+- [ ] Combined with InstructPix2Pix.
 - [ ] Add phase 2 training script and checkpoint.
 - [ ] Add the pre-training of SCR module.
 
@@ -141,7 +143,7 @@ gradio gradio_app.py
 ```
 **Example**:   
 <p align="center">
-<img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
+<img src="figures/gradio_fontdiffuer.png" width="80%" height="auto">
 </p>
 
 ### (2) Sampling by FontDiffuser and Rendering by ControlNet
