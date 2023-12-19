@@ -45,7 +45,8 @@ if __name__ == '__main__':
                     <h2 style="font-weight: 450; font-size: 1rem; margin: 0rem">
                         <a href="https://yeungchenwa.github.io/"">Zhenhua Yang</a>, 
                         <a href="https://scholar.google.com/citations?user=6zNgcjAAAAAJ&hl=zh-CN&oi=ao"">Dezhi Peng</a>, 
-                        Yuxin Kong, Yuyi Zhang, 
+                        <a href="https://github.com/kyxscut"">Yuxin Kong</a>, 
+                        <a href="https://github.com/ZZXF11"">Yuyi Zhang</a>, 
                         <a href="https://scholar.google.com/citations?user=IpmnLFcAAAAJ&hl=zh-CN&oi=ao"">Cong Yao</a>, 
                         <a href="http://www.dlvc-lab.net/lianwen/Index.html"">Lianwen Jin</a>†
                     </h2>
@@ -54,6 +55,7 @@ if __name__ == '__main__':
                     </h2>
                     <h3 style="font-weight: 450; font-size: 1rem; margin: 0rem"> 
                     [<a href="https://github.com/yeungchenwa/FontDiffuser" style="color:blue;">arXiv</a>] 
+                    [<a href="https://yeungchenwa.github.io/fontdiffuser-homepage/" style="color:green;">Homepage</a>]
                     [<a href="https://github.com/yeungchenwa/FontDiffuser" style="color:green;">Github</a>]
                     </h3>
                     <h2 style="text-align: left; font-weight: 600; font-size: 1rem; margin-top: 0.5rem; margin-bottom: 0.5rem">
