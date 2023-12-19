@@ -1,5 +1,7 @@
 transformers==4.33.1
 accelerate==0.23.0
-diffusers==0.22.0.dev0
+diffusers==0.22.0
 gradio==4.8.0
-yaml
+pyyaml
+pygame
+opencv-python

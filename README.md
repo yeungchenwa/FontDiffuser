@@ -8,10 +8,10 @@
 
 <div align=center>
 
-[![arXiv preprint](http://img.shields.io/badge/arXiv-2037.08723-b31b1b)]() 
-[![Gradio demo](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FontDiffuser-ff7c00)]()
+[![arXiv preprint](http://img.shields.io/badge/arXiv-2312.22222-b31b1b)]() 
+[![Gradio demo](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FontDiffuser-ff7c00)](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio)
 [![Homepage](https://img.shields.io/badge/Homepage-FontDiffuser-green)](https://yeungchenwa.github.io/fontdiffuser-homepage/)
-[![Code](https://img.shields.io/badge/Code-aka.ms/FontDiffuser-yellow)](https://github.com/yeungchenwa/FontDiffuser)
+[![Code](https://img.shields.io/badge/Code-FontDiffuser-yellow)](https://github.com/yeungchenwa/FontDiffuser)
 
 </div>
 
@@ -29,14 +29,15 @@
 ![Vis_2](figures/with_instructpix2pix.png)
 + We propose **FontDiffuser**, which is capable to generate unseen characters and styles, and it can be extended to the cross-lingual generation, such as Chinese to Korean.
 + **FontDiffuser** excels in generating complex character and handling large style variation. And it achieves state-of-the-art performance. 
-+ The generated results* by **FontDiffuser** can be perfectly used for **InstructPix2Pix** for decoration, as shown above.
-+ We release the 💻[Gradio Demo]() in Hugging Face.  
++ The generated results by **FontDiffuser** can be perfectly used for **InstructPix2Pix** for decoration, as shown in thr above figure.
++ We release the 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) online! Welcome to Try it Out!  
 
 ## 📅 News
+- **2023.12.19**: 🔥🎉 The 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) is public! Welcome to try it out!
 - **2023.12.16**: The gradio app demo is realeased.  
 <img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
-- **2023.12.10**: 🔥 Release source code with phase 1 training and sampling.    
-- **2023.12.09**: 🎉 Our paper is accepted by AAAI2024.
+- **2023.12.10**: Release source code with phase 1 training and sampling.    
+- **2023.12.09**: 🎉🎉 Our paper is accepted by AAAI2024.
 - **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image gneeration tasks. Welcome to check it out!
 
 ## 🔥 Model Zoo
@@ -49,7 +50,7 @@
 ## 🚧 TODO List
 - [x] Add phase 1 training and sampling script.
 - [x] Add WebUI demo.
-- [ ] Push demo to Hugging Face.
+- [x] Push demo to Hugging Face.
 - [ ] Combined with InstructPix2Pix.
 - [ ] Add phase 2 training script and checkpoint.
 - [ ] Add the pre-training of SCR module.
@@ -116,7 +117,7 @@ The training data files tree should be (The data examples are shown in directory
 ```bash
 sh train_phase_1.sh
 ```
-- `data_root`: The data root, like `./data_examples`
+- `data_root`: The data root, as `./data_examples`
 - `output_dir`: The training output logs and checkpoints saving directory.
 - `resolution`: The resolution of the UNet in our diffusion model.
 - `style_image_size`: The resolution of the style image, can be different with `resolution`.
@@ -136,18 +137,18 @@ Coming Soon...
 ## 📺 Sampling
 ### Step 1 => Prepare the checkpoint   
 Option (1) Download the checkpoint following [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ), then put the `ckpt` to the root directory, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`.  
-Option (2) Put your re-training checkpoint to the `ckpt` in root directory, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`.
+Option (2) Put your re-training checkpoint folder `ckpt` to the root directory, including the files `unet.pth`, `content_encoder.pth`, and `style_encoder.pth`.
 
 ### Step 2 => Run the script  
 **(1) Sampling image from content image and reference image.**  
 ```bash
 sh script/sample_content_image.sh
 ```
-- `ckpt_dir`: The model checkpoints saved path.  
+- `ckpt_dir`: The model checkpoints saving directory.  
 - `content_image_path`: The content/source image path.
 - `style_image_path`: The style/reference image path.
 - `save_image`: set `True` if saving as images.
-- `save_image_dir`: The saving image directory, the saving files including `out_single.png` and `out_with_cs.png`.
+- `save_image_dir`: The image saving directory, the saving files including a `out_single.png` and a `out_with_cs.png`.
 - `device`: The sampling device, recommended GPU acceleration.
 - `guidance_scale`: The classifier-free sampling guidance scale.
 - `num_inference_steps`: The inference step by DPM-Solver++.
@@ -157,9 +158,9 @@ sh script/sample_content_image.sh
 ```bash
 sh script/sample_content_character.sh
 ```
-- `character_input`: In this option, use character string as content/source input.
+- `character_input`: If set `True`, use character string as content/source input.
 - `content_character`: The content/source content character string.
-- The other parameters are the same as the above option.
+- The other parameters are the same as the above option (1).
 
 ## 📱 Run WebUI
 ### (1) Sampling by FontDiffuser
