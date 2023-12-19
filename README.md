@@ -34,10 +34,9 @@
 
 ## 📅 News
 - **2023.12.19**: 🔥🎉 The 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) is public! Welcome to try it out!
-- **2023.12.16**: The gradio app demo is realeased.  
-<img src="figures/gradio_fontdiffuer.png" width="40%" height="auto">
-- **2023.12.10**: Release source code with phase 1 training and sampling.    
-- **2023.12.09**: 🎉🎉 Our paper is accepted by AAAI2024.
+- **2023.12.16**: The gradio app demo is realeased.   
+- **2023.12.10**: Release source code with phase 1 training and sampling.   
+- **2023.12.09**: 🎉🎉 Our paper is accepted by AAAI2024.   
 - **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image gneeration tasks. Welcome to check it out!
 
 ## 🔥 Model Zoo
