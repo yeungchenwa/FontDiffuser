@@ -168,7 +168,7 @@ gradio gradio_app.py
 ```
 **Example**:   
 <p align="center">
-<img src="figures/gradio_fontdiffuer.png" width="80%" height="auto">
+<img src="figures/gradio_fontdiffuer_new.png" width="80%" height="auto">
 </p>
 
 ### (2) Sampling by FontDiffuser and Rendering by InstructPix2Pix
