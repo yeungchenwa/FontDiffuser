@@ -54,7 +54,7 @@ if __name__ == '__main__':
                         <strong>South China University of Technology</strong>, Alibaba DAMO Academy
                     </h2>
                     <h3 style="font-weight: 450; font-size: 1rem; margin: 0rem"> 
-                    [<a href="https://github.com/yeungchenwa/FontDiffuser" style="color:blue;">arXiv</a>] 
+                    [<a href="https://arxiv.org/abs/2312.12142" style="color:blue;">arXiv</a>] 
                     [<a href="https://yeungchenwa.github.io/fontdiffuser-homepage/" style="color:green;">Homepage</a>]
                     [<a href="https://github.com/yeungchenwa/FontDiffuser" style="color:green;">Github</a>]
                     </h3>
