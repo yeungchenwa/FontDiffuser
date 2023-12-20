@@ -8,7 +8,7 @@
 
 <div align=center>
 
-[![arXiv preprint](http://img.shields.io/badge/arXiv-2312.22222-b31b1b)]() 
+[![arXiv preprint](http://img.shields.io/badge/arXiv-2312.12142-b31b1b)](https://arxiv.org/abs/2312.12142) 
 [![Gradio demo](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-FontDiffuser-ff7c00)](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio)
 [![Homepage](https://img.shields.io/badge/Homepage-FontDiffuser-green)](https://yeungchenwa.github.io/fontdiffuser-homepage/)
 [![Code](https://img.shields.io/badge/Code-FontDiffuser-yellow)](https://github.com/yeungchenwa/FontDiffuser)
@@ -36,7 +36,7 @@
 - **2023.12.19**: 🔥🎉 The 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) is public! Welcome to try it out!
 - **2023.12.16**: The gradio app demo is realeased.   
 - **2023.12.10**: Release source code with phase 1 training and sampling.   
-- **2023.12.09**: 🎉🎉 Our paper is accepted by AAAI2024.   
+- **2023.12.09**: 🎉🎉 Our [paper](https://arxiv.org/abs/2312.12142) is accepted by AAAI2024.   
 - **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image gneeration tasks. Welcome to check it out!
 
 ## 🔥 Model Zoo
