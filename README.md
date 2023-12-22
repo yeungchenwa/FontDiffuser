@@ -33,6 +33,7 @@
 + We release the 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) online! Welcome to Try it Out!  
 
 ## 📅 News
+- **2023.12.20**: Our repository is public! 👏🤗
 - **2023.12.19**: 🔥🎉 The 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) is public! Welcome to try it out!
 - **2023.12.16**: The gradio app demo is realeased.   
 - **2023.12.10**: Release source code with phase 1 training and sampling.   
