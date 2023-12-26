@@ -38,7 +38,7 @@
 - **2023.12.16**: The gradio app demo is realeased.   
 - **2023.12.10**: Release source code with phase 1 training and sampling.   
 - **2023.12.09**: 🎉🎉 Our [paper](https://arxiv.org/abs/2312.12142) is accepted by AAAI2024.   
-- **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image gneeration tasks. Welcome to check it out!
+- **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image generation tasks. Welcome to check it out!
 
 ## 🔥 Model Zoo
 | **Model**                                    | **chekcpoint** | **status** |
