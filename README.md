@@ -27,18 +27,18 @@
 ## 🌟 Highlights
 ![Vis_1](figures/vis_1.png)
 ![Vis_2](figures/with_instructpix2pix.png)
-+ We propose **FontDiffuser**, which is capable to generate unseen characters and styles, and it can be extended to the cross-lingual generation, such as Chinese to Korean.
-+ **FontDiffuser** excels in generating complex character and handling large style variation. And it achieves state-of-the-art performance. 
++ We propose **FontDiffuser**, which can generate unseen characters and styles and can be extended to cross-lingual generation, such as Chinese to Korean.
++ **FontDiffuser** excels in generating complex characters and handling large style variations. And it achieves state-of-the-art performance. 
 + The generated results by **FontDiffuser** can be perfectly used for **InstructPix2Pix** for decoration, as shown in thr above figure.
 + We release the 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) online! Welcome to Try it Out!  
 
 ## 📅 News
 - **2023.12.20**: Our repository is public! 👏🤗
 - **2023.12.19**: 🔥🎉 The 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) is public! Welcome to try it out!
-- **2023.12.16**: The gradio app demo is realeased.   
+- **2023.12.16**: The gradio app demo is released.   
 - **2023.12.10**: Release source code with phase 1 training and sampling.   
 - **2023.12.09**: 🎉🎉 Our [paper](https://arxiv.org/abs/2312.12142) is accepted by AAAI2024.   
-- **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image gneeration tasks. Welcome to check it out!
+- **Previously**: Our [Recommendations-of-Diffusion-for-Text-Image](https://github.com/yeungchenwa/Recommendations-Diffusion-Text-Image) repo is public, which contains a paper collection of recent diffusion models for text-image generation tasks. Welcome to check it out!
 
 ## 🔥 Model Zoo
 | **Model**                                    | **chekcpoint** | **status** |
@@ -122,7 +122,7 @@ sh train_phase_1.sh
 - `resolution`: The resolution of the UNet in our diffusion model.
 - `style_image_size`: The resolution of the style image, can be different with `resolution`.
 - `content_image_size`: The resolution of the content image, should be the same as the `resolution`.
-- `channel_attn`: Whether to use the channel attention in MCA block.
+- `channel_attn`: Whether to use the channel attention in the MCA block.
 - `train_batch_size`: The batch size in the training.
 - `max_train_steps`: The maximum of the training steps.
 - `learning_rate`: The learning rate when training.
@@ -148,7 +148,7 @@ sh script/sample_content_image.sh
 - `content_image_path`: The content/source image path.
 - `style_image_path`: The style/reference image path.
 - `save_image`: set `True` if saving as images.
-- `save_image_dir`: The image saving directory, the saving files including a `out_single.png` and a `out_with_cs.png`.
+- `save_image_dir`: The image saving directory, the saving files including an `out_single.png` and an `out_with_cs.png`.
 - `device`: The sampling device, recommended GPU acceleration.
 - `guidance_scale`: The classifier-free sampling guidance scale.
 - `num_inference_steps`: The inference step by DPM-Solver++.
@@ -194,7 +194,7 @@ Coming Soon ...
 - [diffusers](https://github.com/huggingface/diffusers)
 
 ## Copyright
-- This repository can only be used for non-commercial research purpose.
+- This repository can only be used for non-commercial research purposes.
 - For commercial use, please contact Prof. Lianwen Jin (eelwjin@scut.edu.cn).
 - Copyright 2023, [Deep Learning and Vision Computing Lab (DLVC-Lab)](http://www.dlvc-lab.net), South China University of Technology. 
 
