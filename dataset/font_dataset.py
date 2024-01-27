@@ -2,6 +2,7 @@ import os
 import random
 from PIL import Image
 
+import torch
 from torch.utils.data import Dataset
 import torchvision.transforms as transforms
 

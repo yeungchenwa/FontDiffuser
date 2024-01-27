@@ -1,7 +1,7 @@
 import torch
 
 import torch.nn as nn
-import src.modules.SCRModules as SCRModules
+import src.modules.scr_modules as SCRModules
 
 from info_nce import InfoNCE
 import kornia.augmentation as K

@@ -135,7 +135,7 @@ def main():
     model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
         model, optimizer, train_dataloader, lr_scheduler)
     ## move scr module to the target deivces
-    scr = scr.to(accelerator.deivce)
+    scr = scr.to(accelerator.device)
 
     # The trackers initializes automatically on the main process.
     if accelerator.is_main_process:
