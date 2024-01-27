@@ -32,6 +32,16 @@ def get_parser():
                         help="The channels of the fisrt layer output of content encoder.",)
     
     # Training
+    parser.add_argument("--phase_2", action="store_true", help="Training in phase 2 using SCR module.")
+    ## SCR
+    parser.add_argument("--temperature", type=float, default=0.07)
+    parser.add_argument("--mode", type=str, default="refinement")
+    parser.add_argument("--scr_image_size", type=int, default=96)
+    parser.add_argument("--scr_ckpt_path", type=str, default=None)
+    parser.add_argument("--num_neg", type=int, default=16, help="Number of negative samples.")
+    parser.add_argument("--nce_layers", type=str, default='0,1,2,3')
+    parser.add_argument("--sc_coefficient", type=float, default=0.01)
+    ## train batch size
     parser.add_argument("--train_batch_size", type=int, default=4, 
                         help="Batch size (per device) for the training dataloader.")
     ## loss coefficient

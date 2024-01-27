@@ -5,3 +5,5 @@ gradio==4.8.0
 pyyaml
 pygame
 opencv-python
+info-nce-pytorch
+kornia

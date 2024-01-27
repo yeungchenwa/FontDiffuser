@@ -16,10 +16,13 @@ def get_nonorm_transform(resolution):
 class FontDataset(Dataset):
     """The dataset of font generation  
     """
-    def __init__(self, args, phase, transforms=None):
+    def __init__(self, args, phase, transforms=None, scr=False):
         super().__init__()
         self.root = args.data_root
         self.phase = phase
+        self.scr = scr
+        if self.scr:
+            self.num_neg = args.num_neg
         
         # Get Data path
         self.get_path()
@@ -63,7 +66,38 @@ class FontDataset(Dataset):
             style_image = self.transforms[1](style_image)
             target_image = self.transforms[2](target_image)
         
-        return content_image, style_image, target_image, nonorm_target_image, target_image_path
+        sample = {
+            "content_image": content_image,
+            "style_image": style_image,
+            "target_image": target_image,
+            "target_image_path": target_image_path,
+            "nonorm_target_image": nonorm_target_image}
+        
+        if self.scr:
+            # Get neg image from the different style of the same content
+            style_list = list(self.style_to_images.keys())
+            style_index = style_list.index(style)
+            style_list.pop(style_index)
+            choose_neg_names = []
+            for i in range(self.num_neg):
+                choose_style = random.choice(style_list)
+                choose_index = style_list.index(choose_style)
+                style_list.pop(choose_index)
+                choose_neg_name = f"{self.root}/train/TargetImage/{choose_style}/{choose_style}+{content}.jpg"
+                choose_neg_names.append(choose_neg_name)
+
+            # Load neg_images
+            for i, neg_name in enumerate(choose_neg_names):
+                neg_image = Image.open(neg_name).convert("RGB")
+                if self.transforms is not None:
+                    neg_image = self.transforms[2](neg_image)
+                if i == 0:
+                    neg_images = neg_image[None, :, :, :]
+                else:
+                    neg_images = torch.cat([neg_images, neg_image[None, :, :, :]], dim=0)
+            sample["neg_images"] = neg_images
+
+        return sample
 
     def __len__(self):
         return len(self.target_images)
