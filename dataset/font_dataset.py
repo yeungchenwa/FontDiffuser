@@ -21,6 +21,8 @@ class FontDataset(Dataset):
         self.root = args.data_root
         self.phase = phase
         self.scr = scr
+        if self.scr:
+            self.num_neg = args.num_neg
         
         # Get Data path
         self.get_path()

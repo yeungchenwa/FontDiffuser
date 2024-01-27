@@ -1,9 +1,12 @@
 accelerate launch train.py \
     --seed=123 \
-    --experience_name="FontDiffuser_training_phase_1" \
+    --experience_name="FontDiffuser_training_phase_2" \
     --data_root="data_examples" \
     --output_dir="outputs/FontDiffuser" \
     --report_to="tensorboard" \
+    --phase_2 \
+    --scr_ckpt_path="ckpt/scr.pth" \
+    --sc_coefficient=0.01 \
     --resolution=96 \
     --style_image_size=96 \
     --content_image_size=96 \
