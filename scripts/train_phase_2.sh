@@ -5,7 +5,7 @@ accelerate launch train.py \
     --output_dir="outputs/FontDiffuser" \
     --report_to="tensorboard" \
     --phase_2 \
-    --scr_ckpt_path="ckpt/scr.pth" \
+    --scr_ckpt_path="ckpt/scr_210000.pth" \
     --sc_coefficient=0.01 \
     --resolution=96 \
     --style_image_size=96 \
