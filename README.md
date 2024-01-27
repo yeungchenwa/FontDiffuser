@@ -44,8 +44,7 @@
 | **Model**                                    | **chekcpoint** | **status** |
 |----------------------------------------------|----------------|------------|
 | **FontDiffuer**                              | [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) | Released  |
-| **SCR**                                      | - | Coming Soon           |
-| **FontDiffuer (trained by a large dataset)** | - | May Be Coming |
+| **SCR**                                      | [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) | Released     |
 
 ## 🚧 TODO List
 - [x] Add phase 1 training and sampling script.
@@ -113,6 +112,12 @@ The training data files tree should be (The data examples are shown in directory
 │           │     └── ...
 │           └── ...
 ```
+### Training Configuration
+Before running the training script, you should set the training configuration, such as distributed training, through:
+```bash
+accelerate config
+```
+
 ### Training - Phase 1
 ```bash
 sh train_phase_1.sh
@@ -131,8 +136,12 @@ sh train_phase_1.sh
 
 ### Training - Phase 2
 ```bash
-Coming Soon...
+sh train_phase_2.sh
 ```
+- `phase_2`: Tag to phase 2 training.
+- `scr_ckpt_path`: The ckpt path of pre-trained SCR module. You can download it from above 🔥Model Zoo.
+- `sc_coefficient`: The coefficient of style contrastive loss for supervision.
+- `num_neg`: The number of negative samples, default to be `16`.
 
 ## 📺 Sampling
 ### Step 1 => Prepare the checkpoint   
