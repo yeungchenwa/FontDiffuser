@@ -84,9 +84,10 @@ def main():
     perceptual_loss = ContentPerceptualLoss()
 
     # Load SCR module for supervision
-    scr = build_scr(args=args)
-    scr.load_state_dict(torch.load(args.scr_ckpt_path))
-    scr.requires_grad_(False)
+    if args.phase_2:
+        scr = build_scr(args=args)
+        scr.load_state_dict(torch.load(args.scr_ckpt_path))
+        scr.requires_grad_(False)
 
     # Load the datasets
     content_transforms = transforms.Compose(
@@ -135,7 +136,8 @@ def main():
     model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
         model, optimizer, train_dataloader, lr_scheduler)
     ## move scr module to the target deivces
-    scr = scr.to(accelerator.device)
+    if args.phase_2:
+        scr = scr.to(accelerator.device)
 
     # The trackers initializes automatically on the main process.
     if accelerator.is_main_process:
@@ -243,7 +245,7 @@ def main():
                 if accelerator.is_main_process:
                     if global_step % args.ckpt_interval == 0:
                         save_dir = f"{args.output_dir}/global_step_{global_step}"
-                        os.makedirs(save_dir)
+                        os.makedirs(save_dir, exist_ok=True)
                         torch.save(model.unet.state_dict(), f"{save_dir}/unet.pth")
                         torch.save(model.style_encoder.state_dict(), f"{save_dir}/style_encoder.pth")
                         torch.save(model.content_encoder.state_dict(), f"{save_dir}/content_encoder.pth")
