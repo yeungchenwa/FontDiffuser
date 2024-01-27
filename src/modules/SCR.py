@@ -6,7 +6,7 @@ import src.modules.SCRModules as SCRModules
 from info_nce import InfoNCE
 import kornia.augmentation as K
 
-class SCM(nn.Module):
+class SCR(nn.Module):
 
     def __init__(self, 
                  temperature, 

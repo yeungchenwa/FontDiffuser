@@ -21,7 +21,8 @@ from src import (FontDiffuserModel,
                  build_unet,
                  build_style_encoder,
                  build_content_encoder,
-                 build_ddpm_scheduler)
+                 build_ddpm_scheduler,
+                 build_scr)
 from utils import (save_args_to_yaml,
                    x0_from_epsilon, 
                    reNormalize_img, 
@@ -82,6 +83,11 @@ def main():
     # Build content perceptaual Loss
     perceptual_loss = ContentPerceptualLoss()
 
+    # Load SCR module for supervision
+    scr = build_scr(args=args)
+    scr.load_state_dict(torch.load(args.scr_ckpt_path))
+    scr.requires_grad_(False)
+
     # Load the datasets
     content_transforms = transforms.Compose(
         [transforms.Resize(args.content_image_size, 
@@ -128,6 +134,8 @@ def main():
     # Accelerate preparation
     model, optimizer, train_dataloader, lr_scheduler = accelerator.prepare(
         model, optimizer, train_dataloader, lr_scheduler)
+    ## move scr module to the target deivces
+    scr = scr.to(accelerator.deivce)
 
     # The trackers initializes automatically on the main process.
     if accelerator.is_main_process:
@@ -182,12 +190,12 @@ def main():
                 offset_loss = offset_out_sum / 2
                 
                 # output processing for content perceptual loss
-                pred_original_sample = x0_from_epsilon(
+                pred_original_sample_norm = x0_from_epsilon(
                     scheduler=noise_scheduler,
                     noise_pred=noise_pred,
                     x_t=noisy_target_images,
                     timesteps=timesteps)
-                pred_original_sample = reNormalize_img(pred_original_sample)
+                pred_original_sample = reNormalize_img(pred_original_sample_norm)
                 norm_pred_ori = normalize_mean_std(pred_original_sample)
                 norm_target_ori = normalize_mean_std(nonorm_target_images)
                 percep_loss = perceptual_loss.calculate_loss(
@@ -198,6 +206,20 @@ def main():
                 loss = diff_loss + \
                         args.perceptual_coefficient * percep_loss + \
                             args.offset_coefficient * offset_loss
+                
+                if args.phase_2:
+                    neg_images = samples["neg_images"]
+                    # sc loss
+                    sample_style_embeddings, pos_style_embeddings, neg_style_embeddings = scr(
+                        pred_original_sample_norm, 
+                        target_images, 
+                        neg_images, 
+                        nce_layers=args.nce_layers)
+                    sc_loss = scr.calculate_nce_loss(
+                        sample_s=sample_style_embeddings,
+                        pos_s=pos_style_embeddings,
+                        neg_s=neg_style_embeddings)
+                    loss += args.sc_coefficient * sc_loss
 
                 # Gather the losses across all processes for logging (if we use distributed training).
                 avg_loss = accelerator.gather(loss.repeat(args.train_batch_size)).mean()

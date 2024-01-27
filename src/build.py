@@ -1,7 +1,8 @@
 from diffusers.schedulers.scheduling_ddpm import DDPMScheduler
 from src import (ContentEncoder, 
                  StyleEncoder, 
-                 UNet)
+                 UNet,
+                 SCR)
 
 
 def build_unet(args):
@@ -50,6 +51,15 @@ def build_content_encoder(args):
         resolution=args.content_image_size[0])
     print("Get CG-GAN Content Encoder!")
     return content_image_encoder
+
+
+def build_scr(args):
+    scr = SCR(
+        temperature=args.temperature,
+        mode=args.mode,
+        image_size=args.scr_image_size)
+    print("Loaded SCR module for supervision successfully!")
+    return scr
 
 
 def build_ddpm_scheduler(args):
