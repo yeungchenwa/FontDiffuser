@@ -44,8 +44,7 @@
 | **Model**                                    | **chekcpoint** | **status** |
 |----------------------------------------------|----------------|------------|
 | **FontDiffuer**                              | [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) | Released  |
-| **SCR**                                      | - | Coming Soon           |
-| **FontDiffuer (trained by a large dataset)** | - | May Be Coming |
+| **SCR**                                      | [GoogleDrive](https://drive.google.com/drive/folders/12hfuZ9MQvXqcteNuz7JQ2B_mUcTr-5jZ?usp=drive_link) / [BaiduYun:gexg](https://pan.baidu.com/s/19t1B7le8x8L2yFGaOvyyBQ) | Released     |
 
 ## 🚧 TODO List
 - [x] Add phase 1 training and sampling script.
