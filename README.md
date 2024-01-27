@@ -33,6 +33,7 @@
 + We release the 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) online! Welcome to Try it Out!  
 
 ## 📅 News
+- **2024.01.27**: The training of phase 2 is released.
 - **2023.12.20**: Our repository is public! 👏🤗
 - **2023.12.19**: 🔥🎉 The 💻[Hugging Face Demo](https://huggingface.co/spaces/yeungchenwa/FontDiffuser-Gradio) is public! Welcome to try it out!
 - **2023.12.16**: The gradio app demo is released.   
@@ -51,7 +52,7 @@
 - [x] Add WebUI demo.
 - [x] Push demo to Hugging Face.
 - [ ] Combined with InstructPix2Pix.
-- [ ] Add phase 2 training script and checkpoint.
+- [x] Add phase 2 training script and checkpoint.
 - [ ] Add the pre-training of SCR module.
 
 ## 🛠️ Installation
