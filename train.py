@@ -14,6 +14,7 @@ from accelerate.utils import set_seed
 from diffusers.optimization import get_scheduler
 
 from dataset.font_dataset import FontDataset
+from dataset.collate_fn import CollateFN
 from configs.fontdiffuser import get_parser
 from src import (FontDiffuserModel,
                  ContentPerceptualLoss,
@@ -83,35 +84,30 @@ def main():
 
     # Load the datasets
     content_transforms = transforms.Compose(
-        [
-            transforms.Resize(args.content_image_size, interpolation=transforms.InterpolationMode.BILINEAR),
-            transforms.ToTensor(),
-            transforms.Normalize([0.5], [0.5]),
-        ]
-    )
+        [transforms.Resize(args.content_image_size, 
+                           interpolation=transforms.InterpolationMode.BILINEAR),
+         transforms.ToTensor(),
+         transforms.Normalize([0.5], [0.5])])
     style_transforms = transforms.Compose(
-        [
-            transforms.Resize(args.style_image_size, interpolation=transforms.InterpolationMode.BILINEAR),
-            transforms.ToTensor(),
-            transforms.Normalize([0.5], [0.5]),
-        ]
-    )
+        [transforms.Resize(args.style_image_size, 
+                           interpolation=transforms.InterpolationMode.BILINEAR),
+         transforms.ToTensor(),
+         transforms.Normalize([0.5], [0.5])])
     target_transforms = transforms.Compose(
-        [
-            transforms.Resize((args.resolution, args.resolution), interpolation=transforms.InterpolationMode.BILINEAR),
-            transforms.ToTensor(),
-            transforms.Normalize([0.5], [0.5]),
-        ]
-    )
+        [transforms.Resize((args.resolution, args.resolution), 
+                           interpolation=transforms.InterpolationMode.BILINEAR),
+         transforms.ToTensor(),
+         transforms.Normalize([0.5], [0.5])])
     train_font_dataset = FontDataset(
         args=args,
         phase='train', 
         transforms=[
             content_transforms, 
             style_transforms, 
-            target_transforms])
+            target_transforms],
+        scr=args.phase_2)
     train_dataloader = torch.utils.data.DataLoader(
-        train_font_dataset, shuffle=True, batch_size=args.train_batch_size)
+        train_font_dataset, shuffle=True, batch_size=args.train_batch_size, collate_fn=CollateFN())
     
     # Build optimizer and learning rate
     if args.scale_lr:
@@ -149,8 +145,13 @@ def main():
     global_step = 0
     for epoch in range(num_train_epochs):
         train_loss = 0.0
-        for step, (content_images, style_images, target_images, nonorm_target_images, target_image_paths) in enumerate(train_dataloader):
+        for step, samples in enumerate(train_dataloader):
             model.train()
+            content_images = samples["content_image"]
+            style_images = samples["style_image"]
+            target_images = samples["target_image"]
+            nonorm_target_images = samples["nonorm_target_image"]
+            
             with accelerator.accumulate(model):
                 # Sample noise that we'll add to the samples
                 noise = torch.randn_like(target_images)

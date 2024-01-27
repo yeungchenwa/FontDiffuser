@@ -64,9 +64,14 @@ class FontDataset(Dataset):
             style_image = self.transforms[1](style_image)
             target_image = self.transforms[2](target_image)
         
-        if not self.scr:
-            return content_image, style_image, target_image, nonorm_target_image, target_image_path
-        else:
+        sample = {
+            "content_image": content_image,
+            "style_image": style_image,
+            "target_image": target_image,
+            "target_image_path": target_image_path,
+            "nonorm_target_image": nonorm_target_image}
+        
+        if self.scr:
             # Get neg image from the different style of the same content
             style_list = list(self.style_to_images.keys())
             style_index = style_list.index(style)
@@ -88,8 +93,9 @@ class FontDataset(Dataset):
                     neg_images = neg_image[None, :, :, :]
                 else:
                     neg_images = torch.cat([neg_images, neg_image[None, :, :, :]], dim=0)
+            sample["neg_images"] = neg_images
 
-            return content_image, style_image, target_image, neg_images, nonorm_target_image, target_image_path
+        return sample
 
     def __len__(self):
         return len(self.target_images)

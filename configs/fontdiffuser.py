@@ -32,6 +32,7 @@ def get_parser():
                         help="The channels of the fisrt layer output of content encoder.",)
     
     # Training
+    parser.add_argument("--phase_2", action="store_true", help="Training in phase 2 using SCR module.")
     parser.add_argument("--train_batch_size", type=int, default=4, 
                         help="Batch size (per device) for the training dataloader.")
     ## loss coefficient
