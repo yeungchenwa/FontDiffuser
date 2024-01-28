@@ -210,9 +210,8 @@ Coming Soon ...
 
 ## Citation
 ```
-@inproceedings{peng2022spts,
-  title={FontDiffuser: One-Shot Font Generation via Denoising Diffusion with
-Multi-Scale Content Aggregation and Style Contrastive Learning},
+@inproceedings{yang2024fontdiffuer,
+  title={FontDiffuser: One-Shot Font Generation via Denoising Diffusion with Multi-Scale Content Aggregation and Style Contrastive Learning},
   author={Yang, Zhenhua and Peng, Dezhi and Kong, Yuxin and Zhang, Yuyi and Yao, Cong and Jin, Lianwen},
   booktitle={Proceedings of the AAAI conference on artificial intelligence},
   year={2024}
