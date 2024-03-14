@@ -136,10 +136,12 @@ sh train_phase_1.sh
 - `drop_prob`: The classifier-free guidance training probability.
 
 ### Training - Phase 2
+After the phase 2 training, you should put the trained checkpoint files (`unet.pth`, `content_encoder.pth`, and `style_encoder.pth`) to the directory `phase_1_ckpt`. During phase 2, these parameters will be resumed.
 ```bash
 sh train_phase_2.sh
 ```
 - `phase_2`: Tag to phase 2 training.
+- `phase_1_ckpt_dir`: The model checkpoints saving directory after phase 1 training.
 - `scr_ckpt_path`: The ckpt path of pre-trained SCR module. You can download it from above 🔥Model Zoo.
 - `sc_coefficient`: The coefficient of style contrastive loss for supervision.
 - `num_neg`: The number of negative samples, default to be `16`.

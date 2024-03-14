@@ -1,4 +1,5 @@
 # Initially taken from GitHub's Python gitignore file
+phase_1_ckpt/
 outputs/
 run_sh/
 ckpt/
