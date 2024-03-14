@@ -51,9 +51,9 @@
 - [x] Add phase 1 training and sampling script.
 - [x] Add WebUI demo.
 - [x] Push demo to Hugging Face.
-- [ ] Combined with InstructPix2Pix.
 - [x] Add phase 2 training script and checkpoint.
 - [ ] Add the pre-training of SCR module.
+- [ ] Combined with InstructPix2Pix.
 
 ## 🛠️ Installation
 ### Prerequisites (Recommended)
@@ -114,9 +114,14 @@ The training data files tree should be (The data examples are shown in directory
 │           └── ...
 ```
 ### Training Configuration
-Before running the training script, you should set the training configuration, such as distributed training, through:
+Before running the training script (including the following three modes), you should set the training configuration, such as distributed training, through:
 ```bash
 accelerate config
+```
+
+### Training - Pretraining of SCR
+```bash
+Coming Soon ...
 ```
 
 ### Training - Phase 1
