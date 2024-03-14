@@ -5,6 +5,7 @@ accelerate launch train.py \
     --output_dir="outputs/FontDiffuser" \
     --report_to="tensorboard" \
     --phase_2 \
+    --phase_1_ckpt_dir="phase_1_ckpt" \
     --scr_ckpt_path="ckpt/scr_210000.pth" \
     --sc_coefficient=0.01 \
     --num_neg=16 \

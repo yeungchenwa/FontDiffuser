@@ -74,6 +74,10 @@ def main():
     style_encoder = build_style_encoder(args=args)
     content_encoder = build_content_encoder(args=args)
     noise_scheduler = build_ddpm_scheduler(args)
+    if args.phase_2:
+        unet.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/unet.pth"))
+        style_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/style_encoder.pth"))
+        content_encoder.load_state_dict(torch.load(f"{args.phase_1_ckpt_dir}/content_encoder.pth"))
 
     model = FontDiffuserModel(
         unet=unet,
